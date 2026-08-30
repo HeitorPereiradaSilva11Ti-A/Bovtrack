@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instruções - Bovtrack</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="instrucoes.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">BOVTRACK</a>
+
+  <!-- Menu Hambúrguer para Mobile -->
+  <button class="hamburger" id="hamburgerBtn" aria-label="Abrir Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-menu" id="navMenu">
+    <a href="instrucoes.html" class="active">INSTRUÇÕES</a>
+    <a href="produto.html">PRODUTO</a>
+    <a href="quem-somos.html">QUEM SOMOS</a>
+    <a href="referencias.html">REFERÊNCIAS</a>
+    <a href="jogo.html">JOGO</a>
+    <a href="recursos.html">RECURSOS</a>
+  </nav>
+
+  <div class="right">
+    <button class="theme-toggle" aria-label="Alternar tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2b0f30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+    <span class="login-text">LOGIN</span>
+
+    <button class="login-icon" aria-label="Entrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+        <polyline points="10 17 15 12 10 7"></polyline>
+        <line x1="15" y1="12" x2="3" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="instructions-section">
+  <h1 class="instructions-title">INSTRUÇÕES</h1>
+
+  <div class="banner-wrapper">
+    <div class="cards-container">
+      
+      <!-- Passo 1 -->
+      <div class="card">
+        <div class="card-content">
+          <div class="step-badge">1</div>
+          <p class="card-text">Anexe o polo central nas costas do animal</p>
+        </div>
+        <div class="image-wrapper shadow-purple">
+          <img src="assetsbovtrack/instrucao1.png" alt="Anexe o polo central nas costas do animal">
+        </div>
+      </div>
+
+      <!-- Passo 2 -->
+      <div class="card">
+        <div class="card-content">
+          <div class="step-badge">2</div>
+          <p class="card-text">Anexe o polo de temperatura na região indicada</p>
+        </div>
+        <div class="image-wrapper shadow-blue">
+          <img src="assetsbovtrack/Instrucap2.png" alt="Anexe o polo de temperatura na região indicada">
+        </div>
+      </div>
+
+      <!-- Passo 3 -->
+      <div class="card">
+        <div class="card-content">
+          <div class="step-badge">3</div>
+          <p class="card-text">Anexe o polo de vocalização na região indicada</p>
+        </div>
+        <div class="image-wrapper shadow-purple">
+          <img src="assetsbovtrack/instrucao3.png" alt="Anexe o polo de vocalização na região indicada">
+        </div>
+      </div>
+
+      <!-- Passo 4 -->
+      <div class="card card-text-only">
+        <div class="step-badge">4</div>
+        <p class="card-text">Efetue a conexão bluetooth do polo central com seu dispositivo móvel por meio do aplicativo BOVTRACK</p>
+      </div>
+
+      <!-- Passo 5 -->
+      <div class="card card-text-only">
+        <div class="step-badge">5</div>
+        <p class="card-text">Faça o registro de seus animais inserindo as informações necessárias e acompanhe seus dados de temperatura e vocalização remotamente</p>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<section class="video-section">
+  <div class="video-title">
+    <span class="video-title-light">Vídeo</span>
+    <span class="video-title-bg">explicativo</span>
+  </div>
+
+  <div class="video-container">
+    <iframe 
+      src="https://www.youtube.com/embed/zHOP1jfLwTc" 
+      title="Vídeo Explicativo - Abertura do Globo Rural" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      referrerpolicy="strict-origin-when-cross-origin" 
+      allowfullscreen>
+    </iframe>
+  </div>
+</section>
+
+<!-- Lógica isolada do menu mobile -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navMenu = document.getElementById('navMenu');
+
+    if (hamburgerBtn && navMenu) {
+      hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

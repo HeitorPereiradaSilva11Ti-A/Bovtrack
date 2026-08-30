@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bovtrack</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">BOVTRACK</a>
+
+  <!-- BOTÃO DE MENU HAMBÚRGUER (MOBILE) -->
+  <button class="hamburger" aria-label="Abrir Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-menu">
+    <a href="instrucoes.html">INSTRUÇÕES</a>
+    <a href="produto.html">PRODUTO</a>
+    <a href="quem-somos.html">QUEM SOMOS</a>
+    <a href="referencias.html">REFERÊNCIAS</a>
+    <a href="jogo.html">JOGO</a>
+    <a href="recursos.html">RECURSOS</a>
+  </nav>
+
+  <div class="right">
+    <button class="theme-toggle" aria-label="Alternar tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2b0f30"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+    <span class="login-text">LOGIN</span>
+
+    <button class="login-icon" aria-label="Entrar">
+      <svg viewBox="0 0 24 24" fill="none"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+        <polyline points="10 17 15 12 10 7"></polyline>
+        <line x1="15" y1="12" x2="3" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-image">
+      <img src="./assetsbovtrack/foto_prototipo_home.png" alt="Prototipo-home">
+    </div>
+
+    <div class="hero-text">
+      <h1>
+        BOVTRACK<br>
+        REMOTE<br>
+        MANAGEMENT
+      </h1>
+    </div>
+  </section>
+
+  <!-- MONITORE COM INTELIGÊNCIA -->
+  <section class="monitor">
+    <img src="./assetsbovtrack/forma_cinza.png" alt="" class="monitor-bg-shape">
+
+    <div class="monitor-inner">
+      <h2 class="monitor-title">
+        <span class="monitor-title-bg">Monitore</span>
+        <span class="monitor-title-light">com inteligência</span>
+      </h2>
+      <p class="monitor-desc">
+        Supervisione seu gado, atenue e faça registros com o novo BovTrack Remote Management 1
+      </p>
+    </div>
+  </section>
+
+  <!-- LINHA DE DISPOSITIVOS -->
+  <section class="devices">
+    <div class="devices-inner">
+      <div class="device small"><div class="ear-tag"></div></div>
+      <div class="device small"><div class="ear-tag"></div></div>
+
+      <div class="device big">
+        <img src="./assetsbovtrack/polo_temperatura.png" alt="Polo de Temperatura">
+      </div>
+
+      <div class="device big">
+        <img src="./assetsbovtrack/polo_vocalizacao.png" alt="Polo de Vocalização">
+      </div>
+
+      <div class="device big">
+        <img src="./assetsbovtrack/sistema_resfriamento.png" class="resfriamento" alt="Sistema de Resfriamento">
+      </div>
+
+      <div class="device small"><div class="ear-tag"></div></div>
+      <div class="device small"><div class="ear-tag"></div></div>
+    </div>
+  </section>
+
+  <!-- CARTÕES INFORMATIVOS -->
+  <section class="cards">
+    <div class="cards-inner">
+
+      <div class="card-item">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <h3>PÚBLICO ALVO</h3>
+        </div>
+        <p>Produtor pecuário que deseja otimizar sua produção</p>
+      </div>
+
+      <div class="card-item">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="12 8 8 12 12 16 16 12 12 8"></polygon>
+          </svg>
+          <h3>OBJETIVO</h3>
+        </div>
+        <p>Aumentar a qualidade de vida bovina, elevando a excelência de seus produtos, registrando todo o processo.</p>
+      </div>
+
+      <div class="card-item">
+        <div class="card-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <h3>DIFERENCIAL</h3>
+        </div>
+        <ul class="card-list">
+          <li>Processo 100% automatizado</li>
+          <li>Econômico</li>
+          <li>Prático</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Script simples para abrir/fechar o menu mobile
+  const hamburger = document.querySelector('.hamburger');
+  const navMenu = document.querySelector('.nav-menu');
+
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,465 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px 40px 80px;
+  background: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #2b0f30;
+}
+
+/* ---------- HEADER ---------- */
+header {
+  max-width: 1253px;
+  margin: 0 auto;
+  height: 105px;
+  background: linear-gradient(180deg, #2b0f30 0%, #1c0a20 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 8px 30px rgba(43, 15, 48, 0.25);
+  position: sticky;
+  top: 20px;
+  z-index: 1000;
+  width: 100%;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  text-decoration: none;
+  font-family: "Lexend Giga", sans-serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+nav a {
+  color: #e9e4ec;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+nav a.active {
+  color: #6f5b72;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #ffffff;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e9e4ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.login-text {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.login-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.login-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #ffffff;
+}
+
+/* ---------- SEÇÃO DE INSTRUÇÕES ---------- */
+.instructions-section {
+  max-width: 1253px;
+  margin: 100px auto 0;
+  padding: 20px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.instructions-title {
+  font-family: "Lexend Giga", sans-serif;
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: #2b0f30;
+  margin-bottom: 90px;
+  text-align: center;
+}
+
+.banner-wrapper {
+  width: 100%;
+}
+
+.cards-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.card {
+  background-color: #d9d8dc;
+  flex: 1;
+  min-width: 0;
+  padding: 16px 14px 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 16px;
+}
+
+.step-badge {
+  background-color: #2b0f30;
+  color: #ffffff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  align-self: flex-start;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.card-text {
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #000000 !important;
+  margin: 0;
+}
+
+.image-wrapper {
+  margin-top: auto;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.shadow-purple {
+  box-shadow: 5px 5px 0px #3d2a42;
+}
+
+.shadow-blue {
+  box-shadow: 5px 5px 0px #708ea8;
+}
+
+/* ---------- VÍDEO ---------- */
+.video-section {
+  max-width: 1000px;
+  margin: 140px auto 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 70px;
+  font-family: "Lexend Giga", sans-serif;
+}
+
+.video-title-light {
+  color: #2b0f30;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+.video-title-bg {
+  background: #2b0f30;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  padding: 6px 20px;
+  border-radius: 12px;
+  text-transform: lowercase;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000000;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(43, 15, 48, 0.15);
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0 0 60px 0;
+  }
+
+  /* Header sem o vão branco */
+  header {
+    height: 60px;
+    padding: 0 20px;
+    position: relative;
+    top: 0;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .right {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 180px;
+    background: linear-gradient(180deg, #3d0c5a 0%, #a252ed 100%);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 0;
+    gap: 0;
+    box-shadow: -4px 8px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  .instructions-section {
+    margin-top: 30px;
+    padding: 0 16px;
+  }
+
+  .instructions-title {
+    font-size: 26px;
+    letter-spacing: 4px;
+    margin-bottom: 35px;
+  }
+
+  /* --- AJUSTES DA CARDS CONTAINER (IGUAL À SEGUNDA IMAGEM) --- */
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 360px; /* Limita a largura centralizada */
+    margin: 0 auto;
+  }
+
+
+  .card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 108px; /* Força a mesma altura mínima para todos os cards */
+    padding: 14px 16px;
+    border-radius: 20px;
+    gap: 12px;
+    background-color: #dcdcdc;
+    box-shadow: none;
+  }
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    flex: 1;
+    padding-right: 5px;
+  }
+    
+  .card-text-only {
+    flex-direction: row;
+    align-items: center; /* Centraliza o texto verticalmente dentro do card */
+    justify-content: flex-start;
+    padding: 14px 16px;
+  }
+  .step-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+    margin-bottom: 10px;
+    background-color: #2b0f30;
+    align-self: flex-start;
+  }
+
+  .card-text-only .step-badge {
+    margin-bottom: 0;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+
+  .card-text {
+    font-size: 11px;
+    line-height: 1.35;
+    font-weight: 600;
+    text-align: left;
+    color: #1a1a1a !important;
+  }
+
+  /* Tamanho compacto e ajustado para as imagens com a borda/sombra */
+  .image-wrapper {
+    width: 115px;
+    height: 80px;
+    margin-top: 0;
+    flex-shrink: 0;
+    border-radius: 12px;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .shadow-purple {
+    box-shadow: 4px 4px 0px #705b75;
+  }
+
+  .shadow-blue {
+    box-shadow: 4px 4px 0px #7a94ad;
+  }
+
+  /* --- SEÇÃO DE VÍDEO --- */
+  .video-section {
+    margin-top: 50px;
+    padding: 0 16px;
+  }
+
+  .video-title {
+    margin-bottom: 25px;
+    gap: 8px;
+  }
+
+  .video-title-light {
+    font-size: 20px;
+  }
+
+  .video-title-bg {
+    font-size: 18px;
+    padding: 4px 14px;
+    border-radius: 12px;
+  }
+
+  .video-container {
+    border-radius: 20px;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,590 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
+
+/* ---------- RESET GLOBAL UNIFICADO ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #ffffff !important;
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 20px 40px 80px;
+  background-color: #ffffff !important;
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #2b0f30;
+  overflow-x: hidden;
+}
+
+/* ---------- HEADER (IDÊNTICO EM TODAS AS PÁGINAS) ---------- */
+header {
+  max-width: 1253px;
+  margin: 0 auto;
+  height: 105px;
+  background: linear-gradient(180deg, #2b0f30 0%, #1c0a20 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  box-shadow: 0 8px 30px rgba(43, 15, 48, 0.25);
+  position: sticky;
+  top: 20px;
+  z-index: 1000;
+  width: 100%;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  text-decoration: none;
+  font-family: "Lexend Giga", sans-serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+nav a {
+  color: #e9e4ec;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+nav a.active {
+  color: #6f5b72;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #ffffff;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.login-text {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.login-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.login-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: #ffffff;
+}
+
+/* ---------- PADRONIZAÇÃO DE TÍTULOS E HERO ---------- */
+.instructions-title,
+.hero-title,
+.page-title {
+  font-family: 'Lexend Giga', sans-serif !important;
+  font-weight: 300 !important;
+  font-size: 38px !important;
+  letter-spacing: 0.1em !important;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: #2b0f30;
+  margin-top: 100px;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 100px;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.hero-text {
+  margin-top: 40px;
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+.hero-image {
+  display: flex;
+  justify-content: center;
+  max-width: 1800px;
+  width: 100%;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+  height: auto;
+  display: block;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
+}
+
+/* Aumenta o fundo cinza da seção futuro */
+.future-section {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  margin-top: 60px;
+  padding: 100px 0 120px; /* Aumentado o padding inferior */
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.future-bg-shape {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 115%; /* Aumentado a altura da imagem de fundo */
+  object-fit: fill;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.future-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.future-title {
+  margin: 0;
+  color: #151515;
+  font-family: 'Lexend Giga', sans-serif !important;
+  font-weight: 300 !important;
+  font-size: 32px;
+  letter-spacing: 0.08em !important;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+/* Garante o alinhamento correto dos 4 componentes lado a lado */
+.components-grid {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: nowrap; /* Impede a quebra de linha em telas maiores */
+  margin-bottom: 70px;
+}
+
+.components-container {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.components-title {
+  margin: 0 0 90px 0;
+  color: #151515;
+  font-family: 'Lexend Giga', sans-serif !important;
+  font-weight: 300 !important;
+  font-size: 32px;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase;
+}
+
+.components-grid {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 70px;
+}
+
+.component-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+}
+
+.component-img-box {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.component-img-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.component-card:hover .component-img-box img {
+  transform: translateY(-5px);
+}
+
+.connector-line {
+  width: 1px;
+  height: 35px;
+  background-color: #d1d1d1;
+  margin: 10px 0;
+}
+
+.component-label {
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid #d1d1d1;
+  border-radius: 20px;
+  background-color: #ffffff;
+  color: #000000 !important;
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+/* ---------- BOTÃO DE ORÇAMENTO ---------- */
+.budget-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.budget-button {
+  display: inline-block;
+  padding: 16px 65px;
+  background-color: #2b0f30;
+  color: #ffffff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  border-radius: 35px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(43, 15, 48, 0.25);
+  transition: all 0.3s ease;
+}
+
+.budget-button:hover {
+  background-color: #3d1744;
+  transform: translateY(-2px);
+}
+
+/* ---------- MODAL DE ORÇAMENTO ---------- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-card {
+  position: relative;
+  background-color: #1a021e;
+  color: #ffffff;
+  width: 90%;
+  max-width: 480px;
+  padding: 40px 35px 45px;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-card {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.modal-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+}
+
+.modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-list li {
+  font-size: 15px;
+  color: #e5dbe8;
+}
+
+.modal-total {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* ---------- BOTÃO HAMBÚRGUER ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+/* ---------- RESPONSIVO (PRODUTO) ---------- */
+@media (max-width: 768px) {
+  /* Remove os espaçamentos das laterais e do topo no mobile */
+  body {
+    padding: 0 0 40px 0;
+  }
+
+  /* Cola o header no topo (remove o vão branco) */
+  header {
+    height: 60px;
+    padding: 0 20px;
+    position: relative;
+    top: 0;             /* Cola no topo */
+    border-radius: 0;   /* Deixa reto como no mockup */
+    width: 100%;
+  }
+
+  .right {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 180px;
+    background: linear-gradient(180deg, #3d0c5a 0%, #a252ed 100%);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 0;
+    gap: 0;
+    box-shadow: -4px 8px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  /* Ajuste de espaço do título Hero */
+  .hero-title {
+    font-size: 18px !important;
+    margin-top: 30px !important;
+    margin-bottom: 20px !important;
+    letter-spacing: 0.05em !important;
+    padding: 0 15px;
+  }
+
+ /* AUMENTO DA IMAGEM DO PROTÓTIPO NO MOBILE */
+  .hero-image {
+    width: 100%;
+    padding: 0 5px; /* Reduz as margens laterais para a imagem crescer */
+  }
+
+  .hero-image img {
+    max-width: 100%; /* Permite que a imagem preencha a largura total disponível */
+    width: 100%;
+    margin: 0 auto;
+  }
+  .future-section {
+    padding: 50px 10px 70px;
+    margin-top: 20px;
+  }
+
+  .future-bg-shape {
+    height: 120%;
+  }
+
+  .future-title {
+    font-size: 15px !important;
+    line-height: 1.4;
+  }
+
+  
+/* Aumenta o container principal da seção no mobile */
+  .components-section {
+    margin-top: 30px;
+    padding: 30px 10px 40px;
+    width: 100%;
+  }
+
+  .components-title {
+    font-size: 20px !important;
+    margin-bottom: 35px;
+  }
+
+  /* Expande a área do grid */
+  .components-grid {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px; /* Espaçamento entre os cards */
+    width: 100%;
+    margin-bottom: 45px;
+  }
+
+  .component-card {
+    width: 24%;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* AUMENTO DA IMAGEM DO COMPONENTE */
+  .component-img-box {
+    height: 110px; /* Aumentado de 70px para 110px */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .component-img-box img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  /* Linha conectora ajustada */
+  .connector-line {
+    height: 18px;
+    margin: 6px 0;
+  }
+
+  /* AUMENTO DA CAIXA DE TEXTO (LABEL) */
+  .component-label {
+    font-size: 11px; /* Texto maior */
+    line-height: 1.25;
+    padding: 8px 4px; /* Mais espaço interno */
+    border-radius: 14px;
+    text-align: center;
+    width: 100%;
+    min-height: 44px; /* Força altura padronizada para os textos */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Aumento proporcional do botão de orçamento */
+  .budget-button {
+    font-size: 17px;
+    padding: 14px 45px;
+  }
+}

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bovtrack - Produto</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos das páginas -->
+  <link rel="stylesheet" href="produto.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="produto.css">
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">BOVTRACK</a>
+
+  <button class="hamburger" aria-label="Abrir Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-menu">
+    <a href="instrucoes.html">INSTRUÇÕES</a>
+    <a href="produto.html" class="active">PRODUTO</a>
+    <a href="quem-somos.html">QUEM SOMOS</a>
+    <a href="referencias.html">REFERÊNCIAS</a>
+    <a href="jogo.html">JOGO</a>
+    <a href="recursos.html">RECURSOS</a>
+  </nav>
+
+  <div class="right">
+    <button class="theme-toggle" aria-label="Alternar tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2b0f30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+    <span class="login-text">LOGIN</span>
+
+    <button class="login-icon" aria-label="Entrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+        <polyline points="10 17 15 12 10 7"></polyline>
+        <line x1="15" y1="12" x2="3" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="page-container">
+  <section class="hero-produto">
+    <div class="hero-text">
+      <h1 class="hero-title">CONHEÇA O BOVTRACK<br>REMOTE MANAGEMENT</h1>
+    </div>
+    
+    <div class="hero-image">
+      <img src="./assetsbovtrack/mao_prototipo.png" alt="Mão segurando o dispositivo Bovtrack Remote Management">
+    </div>
+  </section>
+
+  <!-- SEÇÃO FAÇA PARTE DO FUTURO -->
+  <section class="future-section">
+    <img src="./assetsbovtrack/forma_cinza.png" alt="" class="future-bg-shape">
+
+    <div class="future-inner">
+      <h2 class="future-title">
+        FAÇA PARTE DO FUTURO<br>
+        DA AUTOMAÇÃO PECUÁRIA
+      </h2>
+    </div>
+  </section>
+
+  <!-- SEÇÃO NOSSOS COMPONENTES -->
+  <section class="components-section">
+    <div class="components-container">
+      <h2 class="components-title">Nossos componentes</h2>
+
+      <div class="components-grid">
+        <div class="component-card">
+          <div class="component-img-box">
+            <img src="./assetsbovtrack/polo_temperatura.png" alt="Polo de Temperatura">
+          </div>
+          <div class="connector-line"></div>
+          <div class="component-label">Polo de<br>temperatura</div>
+        </div>
+
+        <div class="component-card">
+          <div class="component-img-box">
+            <img src="./assetsbovtrack/polo_vocalizacao.png" alt="Polo de Vocalização">
+          </div>
+          <div class="connector-line"></div>
+          <div class="component-label">Polo de<br>Vocalização</div>
+        </div>
+
+        <div class="component-card">
+          <div class="component-img-box">
+            <img src="./assetsbovtrack/sistema_resfriamento.png" alt="Sistema de Resfriamento">
+          </div>
+          <div class="connector-line"></div>
+          <div class="component-label">Sistema de<br>Resfriamento</div>
+        </div>
+
+        <div class="component-card">
+          <div class="component-img-box">
+            <img src="./assetsbovtrack/polo_central.png" alt="Polo Central">
+          </div>
+          <div class="connector-line"></div>
+          <div class="component-label">Polo<br>Central</div>
+        </div>
+      </div>
+
+      <div class="budget-button-wrapper">
+        <button type="button" id="openBudgetModal" class="budget-button">Orçamento</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- MODAL DE ORÇAMENTO -->
+<div id="budgetModal" class="modal-overlay">
+  <div class="modal-card">
+    <button class="modal-close" id="closeBudgetModal" aria-label="Fechar">&times;</button>
+    
+    <h3 class="modal-title">Orçamento</h3>
+    
+    <ul class="modal-list">
+      <li>Esp 32: R$70,00</li>
+      <li>Os 4: R$280,00</li>
+      <li>Sensor de Temperatura Infravermelho IR MLX90614: R$80,00</li>
+      <li>Módulo Sensor de Som KY-037: R$ 6,90</li>
+      <li>Capa acrílica: R$ 200</li>
+      <li>Filamento 3D: R$79</li>
+      <li>Módulo Rele 1 Canal 5v: R$18</li>
+      <li>Placa PCB Perfurada: R$20,00</li>
+      <li>4 delas: R$80,00</li>
+      <li>Jumper Rigido: R$33,40</li>
+    </ul>
+
+    <div class="modal-total">
+      Total: R$777,30
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  // --- MENU HAMBÚRGUER (MOBILE) ---
+  const hamburger = document.querySelector('.hamburger');
+  const navMenu = document.querySelector('.nav-menu');
+
+  if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+  }
+
+  // --- MODAL DE ORÇAMENTO ---
+  const openBudgetBtn = document.getElementById('openBudgetModal');
+  const closeBudgetBtn = document.getElementById('closeBudgetModal');
+  const budgetModal = document.getElementById('budgetModal');
+
+  if (openBudgetBtn && budgetModal) {
+    // Abrir o modal
+    openBudgetBtn.addEventListener('click', () => {
+      budgetModal.classList.add('active');
+    });
+
+    // Fechar no botão (X)
+    if (closeBudgetBtn) {
+      closeBudgetBtn.addEventListener('click', () => {
+        budgetModal.classList.remove('active');
+      });
+    }
+
+    // Fechar ao clicar fora do cartão (no fundo escuro)
+    budgetModal.addEventListener('click', (e) => {
+      if (e.target === budgetModal) {
+        budgetModal.classList.remove('active');
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>
+
+
