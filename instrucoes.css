@@ -18,7 +18,7 @@ body {
   color: #2b0f30;
 }
 
-/* ---------- HEADER ---------- */
+
 header {
   max-width: 1253px;
   margin: 0 auto;
@@ -140,7 +140,6 @@ nav a:hover {
   stroke: #ffffff;
 }
 
-/* ---------- SEÇÃO DE INSTRUÇÕES ---------- */
 .instructions-section {
   max-width: 1253px;
   margin: 100px auto 0;
@@ -233,7 +232,6 @@ nav a:hover {
   box-shadow: 5px 5px 0px #708ea8;
 }
 
-/* ---------- VÍDEO ---------- */
 .video-section {
   max-width: 1000px;
   margin: 140px auto 60px;
@@ -291,7 +289,6 @@ nav a:hover {
     padding: 0 0 60px 0;
   }
 
-  /* Header sem o vão branco */
   header {
     height: 60px;
     padding: 0 20px;
@@ -351,13 +348,13 @@ nav a:hover {
     margin-bottom: 35px;
   }
 
-  /* --- AJUSTES DA CARDS CONTAINER (IGUAL À SEGUNDA IMAGEM) --- */
+
   .cards-container {
     flex-direction: column;
     align-items: center;
     gap: 16px;
     width: 100%;
-    max-width: 360px; /* Limita a largura centralizada */
+    max-width: 360px; 
     margin: 0 auto;
   }
 
@@ -367,7 +364,7 @@ nav a:hover {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    min-height: 108px; /* Força a mesma altura mínima para todos os cards */
+    min-height: 108px; 
     padding: 14px 16px;
     border-radius: 20px;
     gap: 12px;
@@ -385,7 +382,7 @@ nav a:hover {
     
   .card-text-only {
     flex-direction: row;
-    align-items: center; /* Centraliza o texto verticalmente dentro do card */
+    align-items: center; 
     justify-content: flex-start;
     padding: 14px 16px;
   }
@@ -412,7 +409,6 @@ nav a:hover {
     color: #1a1a1a !important;
   }
 
-  /* Tamanho compacto e ajustado para as imagens com a borda/sombra */
   .image-wrapper {
     width: 115px;
     height: 80px;
@@ -436,7 +432,6 @@ nav a:hover {
     box-shadow: 4px 4px 0px #7a94ad;
   }
 
-  /* --- SEÇÃO DE VÍDEO --- */
   .video-section {
     margin-top: 50px;
     padding: 0 16px;

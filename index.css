@@ -116,14 +116,14 @@ nav a:hover {
 
 .login-icon svg { width: 16px; height: 16px; stroke: #ffffff; }
 
-/* MAIN / HOME */
+
 .home {
   max-width: 100svw;
   margin: 20px auto 0;
   padding: 0;
 }
 
-/* HERO */
+
 .hero {
   width: 100%;
   min-height: 380px;
@@ -162,7 +162,7 @@ nav a:hover {
   font-family: "Lexend Giga", sans-serif;
 }
 
-/* MONITOR */
+
 .monitor {
   display: flex;
   justify-content: center;
@@ -223,7 +223,7 @@ nav a:hover {
   margin: 0 auto;
 }
 
-/* DISPOSITIVOS */
+
 .devices {
   width: 100%;
   padding: 30px 10px;
@@ -260,7 +260,6 @@ nav a:hover {
   border-radius: 6px;
 }
 
-/* CARTÕES INFORMATIVOS */
 .cards {
   width: 100%;
   padding: 40px 20px 60px;
@@ -323,7 +322,7 @@ nav a:hover {
   padding-left: 15px;
 }
 
-/* RESPONSIVO MOBILE (FOTO ENVIADA) */
+
 @media (max-width: 768px) {
   body {
     padding: 0;
@@ -343,7 +342,7 @@ nav a:hover {
     display: flex;
   }
 
-  /* MENU DROPDOWN LATERAL (SEGUNDA IMAGEM) */
+
   .nav-menu {
     display: none;
     position: absolute;
@@ -370,7 +369,7 @@ nav a:hover {
     color: #ffffff;
   }
 
-  /* HERO MOBILE */
+
   .hero {
     min-height: auto;
     padding: 20px 10px;
@@ -390,7 +389,7 @@ nav a:hover {
     letter-spacing: 0px;
   }
 
-  /* MONITOR MOBILE */
+
   .monitor {
     padding: 30px 15px;
   }
@@ -403,7 +402,6 @@ nav a:hover {
     font-size: 13px;
   }
 
-  /* CARTÕES EM COLUNA (LAYOUT MOBILE DA FOTO) */
   .cards-inner {
     grid-template-columns: 1fr;
     gap: 25px;
