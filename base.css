@@ -1,0 +1,71 @@
+/* Esse é o css do Header e está importado no base.css */
+@import url(./header.css);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --white: #ffffff;
+
+    --light-gray: #e6e2e7;
+    --dark-gray: #1e1c20;
+
+    --black: #000000;
+
+    --purple-white: #e9e4ec;
+    --light-purple: #5d5360;
+    --purple: #a252ed;
+    --dark-purple: #2b0f30;
+    
+    --fixed-dark-purple: #2b0f30;
+    --fixed-purple-white: #e9e4ec;
+    --fixed-light-purple: #5d5360;
+
+    --bg-color: #f3f2f4;
+    --fixed-white: #ffffff;
+    --fixed-black: #000000;
+    
+    --box-shadow: rgba(0, 0, 0, 0.5);
+    --dark-purple-shadow: #18061b;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-color);
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin-top: 0.5rem;
+  padding: 0;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.hidden {
+    display: none;
+}
+
+.purple { color: var(--dark-purple);}
+
+@media (max-width: 768px) {
+    .hamburguer {
+        display: block !important;
+    }
+}
+
+body.darkmode {
+  .card {
+    background: var(--light-purple);
+  }
+
+  .team-card h3, .team-card a {
+    color: var(--purple-white);
+  }
+}

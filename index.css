@@ -1,6 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
 
+:root {
+  --bg-color: #ffffff;
+  --text-primary: #2b0f30;
+  --text-muted: #555555;
+  
+  --header-bg: #23082b;
+  --nav-link: #e9e4ec;
+  --nav-link-hover: #ffffff;
+  
+  --toggle-bg: #e9e4ec;
+  --toggle-icon: #2b0f30;
+  
+  --hero-bg: #ffffff;
+  
+  --monitor-shape-fill: #e9e4ec;
+  --monitor-badge-bg: #2b0f30;
+  --monitor-badge-text: #ffffff;
+  
+  --ear-tag-bg: #e5e5e5;
+  
+  --cards-bg: #d8d8d8;
+  --card-header-bg: #2b0f30;
+  --card-header-text: #ffffff;
+  --card-text: #444444;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -10,13 +36,69 @@ html, body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: var(--bg-color);
   font-family: 'Space Grotesk', sans-serif;
-  color: #2b0f30;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
   padding: 20px 40px 0;
+}
+
+/* AJUSTES PARA O MODO ESCURO (VIA CSS) */
+body.darkmode {
+  background-color: #2B2A33; /* Garante que o fundo geral não fique branco nos cantos */
+}
+
+body.darkmode .hero {
+  background-color: #2B2A33; /* Mantém a seção hero com a mesma cor do fundo */
+}
+
+body.darkmode .hero-text h1 {
+  color: #ffffff; /* Deixa o título h1 totalmente branco */
+}
+
+/* AJUSTE COMPLETO DO MONITOR NO MODO ESCURO */
+body.darkmode .monitor-bg-shape path {
+  fill: #25122b !important; /* Escurece a forma curva em SVG */
+}
+
+/* Caso esteja usando a imagem PNG em vez do SVG */
+body.darkmode img.monitor-bg-shape {
+  filter: brightness(0.15) hue-rotate(270deg); /* Escurece e ajusta o tom da imagem */
+}
+
+/* Textos claros para contraste no fundo escuro */
+body.darkmode .monitor-title-light,
+body.darkmode .monitor-desc {
+  color: #ffffff !important;
+}
+
+body.darkmode .monitor-title-bg {
+  background-color: #6c448b !important;
+  color: #ffffff !important;
+}
+
+/* TESTE DE COR NO MAIN.HOME (MODO ESCURO) */
+body.darkmode main.home {
+  background-color: #2B2A33; /* Garante a mesma cor do fundo principal */
+  border-radius: 16px;       /* Opcional: para arredondar as bordas do bloco principal */
+}
+
+/* MODO ESCURO PARA A SEÇÃO CARDS */
+body.darkmode .cards {
+  background-color: #17181A !important; /* Cor de fundo da área dos cards */
+}
+
+body.darkmode .card-header {
+  background-color: #6c448b !important; /* Cor dos cabeçalhos dos cards */
+  color: #ffffff !important;
+}
+
+body.darkmode .card-item p,
+body.darkmode .card-list {
+  color: #e9e4ec !important; /* Cor do texto interno dos cards */
 }
 
 /* HEADER */
@@ -24,7 +106,7 @@ header {
   max-width: 1253px;
   margin: 0 auto;
   height: 80px;
-  background: #23082b;
+  background: var(--header-bg);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -34,6 +116,15 @@ header {
   z-index: 1000;
   width: 100%;
 }
+
+main.home {
+  max-width: 100svw;
+  margin: 20px auto 0;
+  padding: 0;
+  background: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
 
 .logo {
   color: #ffffff;
@@ -52,7 +143,7 @@ nav {
 }
 
 nav a {
-  color: #e9e4ec;
+  color: var(--nav-link);
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
@@ -61,7 +152,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #ffffff;
+  color: var(--nav-link-hover);
 }
 
 .hamburger {
@@ -94,15 +185,20 @@ nav a:hover {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #e9e4ec;
+  background: var(--toggle-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: none;
+  transition: background-color 0.3s ease;
 }
 
-.theme-toggle svg { width: 18px; height: 18px; }
+.theme-toggle svg { 
+  width: 18px; 
+  height: 18px; 
+  stroke: var(--toggle-icon);
+}
 
 .login-text {
   color: #ffffff;
@@ -116,29 +212,29 @@ nav a:hover {
 
 .login-icon svg { width: 16px; height: 16px; stroke: #ffffff; }
 
-
 .home {
   max-width: 100svw;
   margin: 20px auto 0;
   padding: 0;
 }
 
-
 .hero {
   width: 100%;
   min-height: 380px;
-  background: #ffffff;
+  background: var(--bg-color);
   border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+  transition: background-color 0.3s ease;
 }
 
 .hero-image {
   width: 50%;
   display: flex;
   justify-content: center;
+   margin-left: 80px;
 }
 
 .hero-image img {
@@ -154,24 +250,29 @@ nav a:hover {
 
 .hero-text h1 {
   margin: 0;
-  color: #2b0f30;
+  color: var(--text-primary);
   font-size: 64px;
   line-height: 1.2;
   font-weight: 300;
   letter-spacing: 1px;
   font-family: "Lexend Giga", sans-serif;
+  transition: color 0.3s ease;
 }
 
-
+/* SEÇÃO MONITOR COM FORMA CURVA */
 .monitor {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  width: 100%;
-  height: 400px;
-  padding: 40px 20px;
+  padding: 60px 20px;
   text-align: center;
+  margin: 30px 0;
+  overflow: hidden;
 }
 
 .monitor-bg-shape {
@@ -179,10 +280,17 @@ nav a:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 100vw;
+  max-width: none;
   height: 100%;
   object-fit: fill;
   z-index: 1;
+  pointer-events: none;
+}
+
+.monitor-bg-shape path {
+  fill: var(--monitor-shape-fill);
+  transition: fill 0.3s ease;
 }
 
 .monitor-inner {
@@ -203,31 +311,34 @@ nav a:hover {
 }
 
 .monitor-title-bg {
-  background: #2b0f30;
-  color: #ffffff;
+  background: var(--monitor-badge-bg);
+  color: var(--monitor-badge-text);
   font-size: 28px;
   padding: 6px 16px;
   border-radius: 12px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .monitor-title-light {
-  color: #555555;
+  color: var(--text-muted);
   font-size: 28px;
+  transition: color 0.3s ease;
 }
 
 .monitor-desc {
-  color: #555555;
+  color: var(--text-muted);
   font-size: 30px;
   line-height: 1.5;
   max-width: 600px;
   margin: 0 auto;
+  transition: color 0.3s ease;
 }
-
 
 .devices {
   width: 100%;
   padding: 30px 10px;
-  background: #ffffff;
+  background: var(--bg-color);
+  transition: background-color 0.3s ease;
 }
 
 .devices-inner {
@@ -256,15 +367,17 @@ nav a:hover {
 .ear-tag {
   width: 16px;
   height: 28px;
-  background: #e5e5e5;
+  background: var(--ear-tag-bg);
   border-radius: 6px;
+  transition: background-color 0.3s ease;
 }
 
 .cards {
   width: 100%;
   padding: 40px 20px 60px;
-  background: #d8d8d8;
+  background: var(--cards-bg);
   border-radius: 20px 20px 0 0;
+  transition: background-color 0.3s ease;
 }
 
 .cards-inner {
@@ -283,8 +396,8 @@ nav a:hover {
 }
 
 .card-header {
-  background: #2b0f30;
-  color: #ffffff;
+  background: var(--card-header-bg);
+  color: var(--card-header-text);
   width: 100%;
   padding: 12px 15px;
   border-radius: 12px;
@@ -293,6 +406,7 @@ nav a:hover {
   justify-content: center;
   gap: 10px;
   margin-bottom: 15px;
+  transition: background-color 0.3s ease;
 }
 
 .card-header svg {
@@ -311,9 +425,10 @@ nav a:hover {
 .card-item p, .card-list {
   font-size: 16px;
   line-height: 1.5;
-  color: #444444;
+  color: var(--card-text);
   margin: 0;
   padding: 0;
+  transition: color 0.3s ease;
 }
 
 .card-list {
@@ -321,7 +436,6 @@ nav a:hover {
   text-align: left;
   padding-left: 15px;
 }
-
 
 @media (max-width: 768px) {
   body {
@@ -334,15 +448,34 @@ nav a:hover {
     padding: 0 15px;
   }
 
+  @media (max-width: 768px) {
+  /* ... outros códigos do seu media query ... */
+
+  .logo {
+    order: 1;
+  }
+
+  /* Posiciona o botão de tema à direita, antes do hambúrguer */
   .right {
-    display: none;
+    display: flex !important;
+    align-items: center;
+    order: 2;
+    margin-left: auto;
+    margin-right: 12px;
   }
 
+  /* Coloca o hambúrguer por último, no canto superior direito */
   .hamburger {
-    display: flex;
+    display: flex !important;
+    order: 3;
   }
 
-
+  /* Esconde apenas os elementos de login no mobile */
+  .login-text,
+  .login-icon {
+    display: none !important;
+  }
+}
   .nav-menu {
     display: none;
     position: absolute;
@@ -369,26 +502,35 @@ nav a:hover {
     color: #ffffff;
   }
 
-
   .hero {
-    min-height: auto;
-    padding: 20px 10px;
-    gap: 10px;
-  }
-
-  .hero-image {
-    width: 45%;
-  }
-
-  .hero-text {
-    width: 55%;
+    min-height: 500px;
+    padding: 60px 24px;
+    gap: 30px;
   }
 
   .hero-text h1 {
-    font-size: 18px;
-    letter-spacing: 0px;
+    font-size: 32px;
+    line-height: 1.3;
   }
 
+  .hero-image {
+    width: 58%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-image img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    transform: scale(1.15);
+  }
+
+  .hero-text {
+    width: 38%;
+  }
 
   .monitor {
     padding: 30px 15px;

@@ -1,46 +1,108 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
+:root {
+  --bg-color: #ffffff;
+  --text-primary: #2b0f30;
+  --header-bg: #23082b;
+  --card-bg: #d9d8dc;
+  --card-text: #000000;
+  --badge-bg: #2b0f30;
+  --badge-text: #ffffff;
+  --video-badge-bg: #2b0f30;
 }
 
 * {
   box-sizing: border-box;
 }
 
-body {
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
   margin: 0;
+  padding: 0;
+}
+
+body {
   padding: 20px 40px 80px;
-  background: #ffffff;
+  background: var(--bg-color);
   font-family: 'Space Grotesk', sans-serif;
-  color: #2b0f30;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
+
+
+
+/* =========================================
+   MODO ESCURO PARA A PÁGINA DE INSTRUÇÕES
+   ========================================= */
+body.darkmode {
+  --bg-color: #2B2A33;
+  --text-primary: #ffffff;
+  --card-bg: #1d1921;
+  --card-text: #e9e4ec;
+  --badge-bg: #6c448b;
+  --video-badge-bg: #6c448b;
+}
+
+body.darkmode .instructions-title,
+body.darkmode .video-title-light {
+  color: #ffffff !important;
+}
+
+body.darkmode .card {
+  background-color: var(--card-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.darkmode .card-text {
+  color: var(--card-text) !important;
+}
+
+body.darkmode .step-badge {
+  background-color: var(--badge-bg) !important;
+}
+
+body.darkmode .video-title-bg {
+  background: var(--video-badge-bg) !important;
+}
+
+
+/* Remove o fundo claro do container/section no modo escuro */
+body.darkmode .instructions-section,
+body.darkmode .banner-wrapper {
+  background-color: var(--bg-color) !important;
+  background: transparent !important;
+}
+/* =========================================
+   HEADER
+   ========================================= */
+
+   main.instructions-section {
+  background-color: var(--bg-color);
+}
 header {
   max-width: 1253px;
   margin: 0 auto;
-  height: 105px;
-  background: linear-gradient(180deg, #2b0f30 0%, #1c0a20 100%);
+  height: 80px;
+  background: var(--header-bg);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  box-shadow: 0 8px 30px rgba(43, 15, 48, 0.25);
-  position: sticky;
-  top: 20px;
+  padding: 0 30px;
+  position: relative;
   z-index: 1000;
   width: 100%;
 }
 
 .logo {
   color: #ffffff;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   white-space: nowrap;
   text-decoration: none;
   font-family: "Lexend Giga", sans-serif;
@@ -49,15 +111,14 @@ header {
 nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 
 nav a {
   color: #e9e4ec;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.3px;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
@@ -74,19 +135,20 @@ nav a:hover {
 .right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .hamburger {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 28px;
-  height: 20px;
+  height: 22px;
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
+  z-index: 1001;
 }
 
 .hamburger span {
@@ -94,12 +156,11 @@ nav a:hover {
   height: 3px;
   background-color: #ffffff;
   border-radius: 2px;
-  transition: all 0.3s ease;
 }
 
-.theme-toggle {
-  width: 40px;
-  height: 40px;
+.theme-toggle, .login-icon {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: #e9e4ec;
   display: flex;
@@ -107,42 +168,37 @@ nav a:hover {
   justify-content: center;
   cursor: pointer;
   border: none;
+  transition: background-color 0.3s ease;
 }
 
 .theme-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  stroke: #2b0f30;
 }
 
 .login-text {
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
 }
 
 .login-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
+  background: rgba(255,255,255,0.1);
 }
 
-.login-icon svg {
-  width: 18px;
-  height: 18px;
-  stroke: #ffffff;
+.login-icon svg { 
+  width: 16px; 
+  height: 16px; 
+  stroke: #ffffff; 
 }
 
+/* =========================================
+   SEÇÃO INSTRUÇÕES & CARDS
+   ========================================= */
 .instructions-section {
   max-width: 1253px;
-  margin: 100px auto 0;
+  margin: 60px auto 0;
   padding: 20px 0 0 0;
   display: flex;
   flex-direction: column;
@@ -155,9 +211,10 @@ nav a:hover {
   font-weight: 400;
   letter-spacing: 8px;
   text-transform: uppercase;
-  color: #2b0f30;
-  margin-bottom: 90px;
+  color: var(--text-primary);
+  margin-bottom: 60px;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 .banner-wrapper {
@@ -174,7 +231,7 @@ nav a:hover {
 }
 
 .card {
-  background-color: #d9d8dc;
+  background-color: var(--card-bg);
   flex: 1;
   min-width: 0;
   padding: 16px 14px 20px 14px;
@@ -182,11 +239,12 @@ nav a:hover {
   flex-direction: column;
   align-items: center;
   border-radius: 16px;
+  transition: background-color 0.3s ease;
 }
 
 .step-badge {
-  background-color: #2b0f30;
-  color: #ffffff;
+  background-color: var(--badge-bg);
+  color: var(--badge-text);
   width: 26px;
   height: 26px;
   border-radius: 50%;
@@ -198,6 +256,7 @@ nav a:hover {
   align-self: flex-start;
   margin-bottom: 16px;
   flex-shrink: 0;
+  transition: background-color 0.3s ease;
 }
 
 .card-text {
@@ -205,8 +264,9 @@ nav a:hover {
   font-weight: 600;
   font-size: 12px;
   line-height: 1.4;
-  color: #000000 !important;
+  color: var(--card-text);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .image-wrapper {
@@ -232,9 +292,12 @@ nav a:hover {
   box-shadow: 5px 5px 0px #708ea8;
 }
 
+/* =========================================
+   SEÇÃO VÍDEO
+   ========================================= */
 .video-section {
   max-width: 1000px;
-  margin: 140px auto 60px;
+  margin: 100px auto 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -245,19 +308,20 @@ nav a:hover {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 70px;
+  margin-bottom: 50px;
   font-family: "Lexend Giga", sans-serif;
 }
 
 .video-title-light {
-  color: #2b0f30;
+  color: var(--text-primary);
   font-size: 28px;
   font-weight: 400;
   letter-spacing: 1px;
+  transition: color 0.3s ease;
 }
 
 .video-title-bg {
-  background: #2b0f30;
+  background: var(--video-badge-bg);
   color: #ffffff;
   font-size: 28px;
   font-weight: 400;
@@ -265,6 +329,7 @@ nav a:hover {
   padding: 6px 20px;
   border-radius: 12px;
   text-transform: lowercase;
+  transition: background-color 0.3s ease;
 }
 
 .video-container {
@@ -284,6 +349,9 @@ nav a:hover {
   border-radius: 20px;
 }
 
+/* =========================================
+   RESPONSIVIDADE (MOBILE)
+   ========================================= */
 @media (max-width: 768px) {
   body {
     padding: 0 0 60px 0;
@@ -300,14 +368,26 @@ nav a:hover {
 
   .logo {
     font-size: 18px;
+    order: 1;
   }
 
+  /* Posiciona o botão de tema no canto direito antes do hambúrguer */
   .right {
-    display: none;
+    display: flex !important;
+    align-items: center;
+    order: 2;
+    margin-left: auto;
+    margin-right: 12px;
+  }
+
+  .login-text,
+  .login-icon {
+    display: none !important;
   }
 
   .hamburger {
-    display: flex;
+    display: flex !important;
+    order: 3;
   }
 
   .nav-menu {
@@ -343,11 +423,10 @@ nav a:hover {
   }
 
   .instructions-title {
-    font-size: 26px;
+    font-size: 24px;
     letter-spacing: 4px;
     margin-bottom: 35px;
   }
-
 
   .cards-container {
     flex-direction: column;
@@ -358,7 +437,6 @@ nav a:hover {
     margin: 0 auto;
   }
 
-
   .card {
     flex-direction: row;
     align-items: center;
@@ -368,9 +446,8 @@ nav a:hover {
     padding: 14px 16px;
     border-radius: 20px;
     gap: 12px;
-    background-color: #dcdcdc;
-    box-shadow: none;
   }
+
   .card-content {
     display: flex;
     flex-direction: column;
@@ -386,12 +463,12 @@ nav a:hover {
     justify-content: flex-start;
     padding: 14px 16px;
   }
+
   .step-badge {
     width: 24px;
     height: 24px;
     font-size: 11px;
     margin-bottom: 10px;
-    background-color: #2b0f30;
     align-self: flex-start;
   }
 
@@ -406,7 +483,6 @@ nav a:hover {
     line-height: 1.35;
     font-weight: 600;
     text-align: left;
-    color: #1a1a1a !important;
   }
 
   .image-wrapper {
@@ -422,14 +498,6 @@ nav a:hover {
     height: 100%;
     object-fit: cover;
     border-radius: 12px;
-  }
-
-  .shadow-purple {
-    box-shadow: 4px 4px 0px #705b75;
-  }
-
-  .shadow-blue {
-    box-shadow: 4px 4px 0px #7a94ad;
   }
 
   .video-section {

@@ -1,52 +1,104 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
 
-/* ---------- RESET GLOBAL UNIFICADO ---------- */
+/* ---------- RESET GLOBAL & VARIÁVEIS ---------- */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-html {
-  background-color: #ffffff !important;
+:root {
+  --bg-color: #ffffff;
+  --text-primary: #2b0f30;
+  --card-bg: #ffffff;
+  --card-border: #d1d1d1;
+  --title-color: #151515;
+}
+
+html, body {
   width: 100%;
   min-height: 100%;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
   padding: 20px 40px 80px;
-  background-color: #ffffff !important;
-  width: 100%;
-  min-height: 100vh;
+  background-color: var(--bg-color);
   font-family: 'Space Grotesk', sans-serif;
-  color: #2b0f30;
-  overflow-x: hidden;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ---------- HEADER (IDÊNTICO EM TODAS AS PÁGINAS) ---------- */
+/* ---------- SUPORTE AO MODO ESCURO ---------- */
+body.darkmode {
+  --bg-color: #2B2A33;
+  --text-primary: #ffffff;
+  --card-bg: #1d1921;
+  --card-border: #443c4d;
+  --title-color: #ffffff;
+}
+
+
+body.darkmode .hero-title,
+body.darkmode .future-title,
+body.darkmode .components-title {
+  color: #ffffff !important;
+}
+
+body.darkmode .component-label {
+  background-color: var(--card-bg);
+  border-color: var(--card-border);
+  color: #ffffff !important;
+}
+
+/* Escurece e ajusta a forma (.future-bg-shape) quando o modo escuro está ativo */
+/* Transforma a imagem .future-bg-shape na cor #1E0326 no Modo Escuro */
+body.darkmode .future-bg-shape {
+  filter: brightness(0) saturate(100%) invert(6%) sepia(91%) saturate(3000%) hue-rotate(270deg) brightness(15%);
+}
+
+/* Garante o texto em branco com alto contraste sobre o fundo #1E0326 */
+body.darkmode .future-title {
+  color: #ffffff !important;
+}
+/* Ajusta APENAS o degradê no Modo Escuro (mão continua 100% nítida) */
+body.darkmode .hero-image img {
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+}
+/* Garante o contraste do texto sobre a imagem de fundo cinza no modo escuro */
+body.darkmode .future-section {
+  color: #2b0f30 !important;
+}
+body.darkmode main.page-container {
+  background-color: #2B2A33;
+}
+main.page-container {
+  background-color: var(--bg-color);
+}
+
+/* ---------- HEADER ---------- */
 header {
   max-width: 1253px;
   margin: 0 auto;
-  height: 105px;
-  background: linear-gradient(180deg, #2b0f30 0%, #1c0a20 100%);
+  height: 80px;
+  background: #23082b;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  box-shadow: 0 8px 30px rgba(43, 15, 48, 0.25);
-  position: sticky;
-  top: 20px;
+  padding: 0 30px;
+  position: relative;
   z-index: 1000;
   width: 100%;
 }
 
 .logo {
   color: #ffffff;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   white-space: nowrap;
   text-decoration: none;
   font-family: "Lexend Giga", sans-serif;
@@ -55,15 +107,14 @@ header {
 nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 
 nav a {
   color: #e9e4ec;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.3px;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
@@ -80,82 +131,57 @@ nav a:hover {
 .right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
-.theme-toggle {
-  width: 40px;
-  height: 40px;
+.theme-toggle, .login-icon {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: #ffffff;
+  background: #e9e4ec;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: none;
+  transition: background-color 0.3s ease;
 }
 
 .theme-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  stroke: #2b0f30;
 }
 
 .login-text {
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
 }
 
 .login-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .login-icon svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   stroke: #ffffff;
 }
 
-/* ---------- PADRONIZAÇÃO DE TÍTULOS E HERO ---------- */
-.instructions-title,
-.hero-title,
-.page-title {
+/* ---------- SEÇÃO HERO ---------- */
+.hero-title {
   font-family: 'Lexend Giga', sans-serif !important;
   font-weight: 300 !important;
   font-size: 38px !important;
   letter-spacing: 0.1em !important;
   line-height: 1.4;
   text-transform: uppercase;
-  color: #2b0f30;
-  margin-top: 100px;
-  margin-bottom: 60px;
+  color: var(--text-primary);
+  margin-top: 60px;
+  margin-bottom: 40px;
   text-align: center;
-}
-
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-top: 100px;
-  width: 100%;
-  background-color: #ffffff;
-}
-
-.hero-text {
-  margin-top: 40px;
-  width: 100%;
-  margin-bottom: 60px;
+  transition: color 0.3s ease;
 }
 
 .hero-image {
@@ -168,22 +194,20 @@ nav a:hover {
 .hero-image img {
   width: 100%;
   max-width: 1200px;
-  margin-top: 20px;
   height: auto;
   display: block;
   -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
   mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%);
 }
 
-/* Aumenta o fundo cinza da seção futuro */
+/* ---------- SEÇÃO FUTURO ---------- */
 .future-section {
   position: relative;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
   margin-top: 60px;
-  padding: 100px 0 120px; /* Aumentado o padding inferior */
-  background: transparent;
+  padding: 100px 0 120px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,7 +220,7 @@ nav a:hover {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100vw;
-  height: 115%; /* Aumentado a altura da imagem de fundo */
+  height: 115%;
   object-fit: fill;
   z-index: 1;
   pointer-events: none;
@@ -213,23 +237,19 @@ nav a:hover {
 
 .future-title {
   margin: 0;
-  color: #151515;
+  color: var(--title-color);
   font-family: 'Lexend Giga', sans-serif !important;
   font-weight: 300 !important;
   font-size: 32px;
   letter-spacing: 0.08em !important;
   line-height: 1.5;
   text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
-/* Garante o alinhamento correto dos 4 componentes lado a lado */
-.components-grid {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: nowrap; /* Impede a quebra de linha em telas maiores */
-  margin-bottom: 70px;
+/* ---------- COMPONENTES ---------- */
+.components-section {
+  margin-top: 60px;
 }
 
 .components-container {
@@ -241,12 +261,13 @@ nav a:hover {
 
 .components-title {
   margin: 0 0 90px 0;
-  color: #151515;
+  color: var(--title-color);
   font-family: 'Lexend Giga', sans-serif !important;
   font-weight: 300 !important;
   font-size: 32px;
   letter-spacing: 0.05em !important;
   text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
 .components-grid {
@@ -294,13 +315,14 @@ nav a:hover {
 .component-label {
   width: 100%;
   padding: 8px 16px;
-  border: 1px solid #d1d1d1;
+  border: 1px solid var(--card-border);
   border-radius: 20px;
-  background-color: #ffffff;
-  color: #000000 !important;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
   font-size: 14px;
   line-height: 1.3;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 /* ---------- BOTÃO DE ORÇAMENTO ---------- */
@@ -325,12 +347,15 @@ nav a:hover {
   transition: all 0.3s ease;
 }
 
+body.darkmode .budget-button {
+  background-color: #6C448B;
+}
+
 .budget-button:hover {
-  background-color: #3d1744;
   transform: translateY(-2px);
 }
 
-/* ---------- MODAL DE ORÇAMENTO ---------- */
+/* ---------- MODAL ---------- */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -407,7 +432,7 @@ nav a:hover {
   margin-top: 10px;
 }
 
-/* ---------- BOTÃO HAMBÚRGUER ---------- */
+/* ---------- HAMBÚRGUER ---------- */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -428,29 +453,43 @@ nav a:hover {
   border-radius: 2px;
 }
 
-/* ---------- RESPONSIVO (PRODUTO) ---------- */
+/* ---------- RESPONSIVO (MOBILE) ---------- */
 @media (max-width: 768px) {
-  /* Remove os espaçamentos das laterais e do topo no mobile */
   body {
     padding: 0 0 40px 0;
   }
 
-  /* Cola o header no topo (remove o vão branco) */
   header {
     height: 60px;
     padding: 0 20px;
     position: relative;
-    top: 0;             /* Cola no topo */
-    border-radius: 0;   /* Deixa reto como no mockup */
+    top: 0;
+    border-radius: 0;
     width: 100%;
   }
 
+  .logo {
+    font-size: 18px;
+    order: 1;
+  }
+
+  /* Posiciona o botão de tema antes do hambúrguer */
   .right {
-    display: none;
+    display: flex !important;
+    align-items: center;
+    order: 2;
+    margin-left: auto;
+    margin-right: 12px;
+  }
+
+  .login-text,
+  .login-icon {
+    display: none !important;
   }
 
   .hamburger {
-    display: flex;
+    display: flex !important;
+    order: 3;
   }
 
   .nav-menu {
@@ -480,7 +519,6 @@ nav a:hover {
     color: #ffffff;
   }
 
-  /* Ajuste de espaço do título Hero */
   .hero-title {
     font-size: 18px !important;
     margin-top: 30px !important;
@@ -489,17 +527,17 @@ nav a:hover {
     padding: 0 15px;
   }
 
- /* AUMENTO DA IMAGEM DO PROTÓTIPO NO MOBILE */
   .hero-image {
     width: 100%;
-    padding: 0 5px; /* Reduz as margens laterais para a imagem crescer */
+    padding: 0 5px;
   }
 
   .hero-image img {
-    max-width: 100%; /* Permite que a imagem preencha a largura total disponível */
+    max-width: 100%;
     width: 100%;
     margin: 0 auto;
   }
+
   .future-section {
     padding: 50px 10px 70px;
     margin-top: 20px;
@@ -514,8 +552,6 @@ nav a:hover {
     line-height: 1.4;
   }
 
-  
-/* Aumenta o container principal da seção no mobile */
   .components-section {
     margin-top: 30px;
     padding: 30px 10px 40px;
@@ -527,14 +563,13 @@ nav a:hover {
     margin-bottom: 35px;
   }
 
-  /* Expande a área do grid */
   .components-grid {
     display: flex !important;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: flex-end;
-    gap: 12px; /* Espaçamento entre os cards */
+    gap: 12px;
     width: 100%;
     margin-bottom: 45px;
   }
@@ -547,9 +582,8 @@ nav a:hover {
     align-items: center;
   }
 
-  /* AUMENTO DA IMAGEM DO COMPONENTE */
   .component-img-box {
-    height: 110px; /* Aumentado de 70px para 110px */
+    height: 110px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -562,27 +596,24 @@ nav a:hover {
     object-fit: contain;
   }
 
-  /* Linha conectora ajustada */
   .connector-line {
     height: 18px;
     margin: 6px 0;
   }
 
-  /* AUMENTO DA CAIXA DE TEXTO (LABEL) */
   .component-label {
-    font-size: 11px; /* Texto maior */
+    font-size: 11px;
     line-height: 1.25;
-    padding: 8px 4px; /* Mais espaço interno */
+    padding: 8px 4px;
     border-radius: 14px;
     text-align: center;
     width: 100%;
-    min-height: 44px; /* Força altura padronizada para os textos */
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  /* Aumento proporcional do botão de orçamento */
   .budget-button {
     font-size: 17px;
     padding: 14px 45px;

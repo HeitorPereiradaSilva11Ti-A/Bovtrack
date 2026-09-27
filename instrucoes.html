@@ -6,6 +6,7 @@
   <title>Instruções - Bovtrack</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="instrucoes.css">
+  <script src="changemode.js" defer></script>
 </head>
 <body>
 
@@ -118,20 +119,6 @@
     </iframe>
   </div>
 </section>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const navMenu = document.getElementById('navMenu');
-
-    if (hamburgerBtn && navMenu) {
-      hamburgerBtn.addEventListener('click', () => {
-        hamburgerBtn.classList.toggle('active');
-        navMenu.classList.toggle('active');
-      });
-    }
-  });
-</script>
 
 </body>
 </html>

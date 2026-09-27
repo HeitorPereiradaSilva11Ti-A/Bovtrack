@@ -1,48 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
 
-/* --- IMPEDE ROLAGEM HORIZONTAL NA PÁGINA INTEIRA --- */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-* {
+/* ---------- RESET GLOBAL & VARIÁVEIS ---------- */
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
-body {
+:root {
+  --bg-color: #ffffff;
+  --text-primary: #2b0f30;
+  --title-color: #2b0f30;
+  --card-bg: #dcdcdc;
+  --card-desc: #2b0f30;
+  --tag-bg: #2b0f30;
+  --tag-color: #ffffff;
+  --btn-bg: #230228;
+  --btn-shadow: #110014;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
   margin: 0;
+  padding: 0;
+}
+
+body {
   padding: 20px 40px 80px;
-  background: #ffffff;
+  background-color: var(--bg-color);
   font-family: 'Space Grotesk', sans-serif;
-  color: #2b0f30;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ---------- SUPORTE AO MODO ESCURO ---------- */
+body.darkmode {
+  --bg-color: #2B2A33;
+  --text-primary: #ffffff;
+  --title-color: #ffffff;
+  --card-bg: #1d1921;
+  --card-desc: #ffffff;
+  --tag-bg: #3d0c5a;
+  --tag-color: #ffffff;
+  --btn-bg: #5e247e;
+  --btn-shadow: #210231;
+}
+
+/* Aplica o filtro de cor #1E0326 à imagem de fundo da seção no modo escuro */
+body.darkmode .articles-bg-shape {
+  filter: brightness(0) saturate(100%) invert(6%) sepia(91%) saturate(3000%) hue-rotate(270deg) brightness(15%);
 }
 
 /* ---------- HEADER ---------- */
-
 header {
   max-width: 1253px;
   margin: 0 auto;
-  height: 105px;
-  background: linear-gradient(180deg, #2b0f30 0%, #1c0a20 100%);
+  height: 80px;
+  background: #23082b;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px;
-  box-shadow: 0 8px 30px rgba(43, 15, 48, 0.25);
-  position: sticky;
-  top: 20px;
+  padding: 0 30px;
+  position: relative;
   z-index: 1000;
   width: 100%;
 }
 
 .logo {
   color: #ffffff;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   white-space: nowrap;
   text-decoration: none;
   font-family: "Lexend Giga", sans-serif;
@@ -51,15 +81,14 @@ header {
 nav {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 
 nav a {
   color: #e9e4ec;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.3px;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
@@ -76,12 +105,12 @@ nav a:hover {
 .right {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
-.theme-toggle {
-  width: 40px;
-  height: 40px;
+.theme-toggle, .login-icon {
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: #e9e4ec;
   display: flex;
@@ -89,36 +118,28 @@ nav a:hover {
   justify-content: center;
   cursor: pointer;
   border: none;
+  transition: background-color 0.3s ease;
 }
 
 .theme-toggle svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
+  stroke: #2b0f30;
 }
 
 .login-text {
   color: #ffffff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
 }
 
 .login-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .login-icon svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   stroke: #ffffff;
 }
 
@@ -128,8 +149,8 @@ nav a:hover {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
   margin-right: calc(-50vw + 50%);
-  margin-top: 120px;
-  padding: 80px 0 180px; /* Aumentado o espaço inferior para afastar a curva dos cards */
+  margin-top: 80px;
+  padding: 80px 0 140px;
   background: transparent;
   display: flex;
   align-items: center;
@@ -147,6 +168,7 @@ nav a:hover {
   object-fit: fill;
   z-index: 1;
   pointer-events: none;
+  transition: filter 0.3s ease;
 }
 
 .articles-container {
@@ -161,26 +183,27 @@ nav a:hover {
 
 .articles-title {
   margin: 0 0 60px 0;
-  color: #2b0f30;
+  color: var(--title-color);
   font-family: 'Lexend Giga', sans-serif !important;
   font-weight: 300 !important;
   font-size: 36px;
   letter-spacing: 0.08em;
   line-height: 1.4;
   text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
 .articles-grid {
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: 40px;
+  gap: 30px;
   flex-wrap: wrap;
 }
 
 .article-card {
   position: relative;
-  background-color: #dcdcdc;
+  background-color: var(--card-bg);
   width: 320px;
   min-height: 380px;
   padding: 50px 25px 35px;
@@ -188,35 +211,39 @@ nav a:hover {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
 
 .article-tag {
   position: absolute;
   top: 18px;
-  background-color: #2b0f30;
-  color: #ffffff;
+  background-color: var(--tag-bg);
+  color: var(--tag-color);
   font-family: 'Space Grotesk', sans-serif;
   font-size: 13px;
   font-weight: 500;
   padding: 5px 22px;
   border-radius: 15px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .article-description {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 15px;
   font-weight: 600;
-  color: #2b0f30;
+  color: var(--card-desc);
   line-height: 1.5;
   text-transform: uppercase;
   margin: auto 0;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 .article-btn {
   display: inline-block;
-  background-color: #230228;
+  background-color: var(--btn-bg);
   color: #ffffff;
   text-decoration: none;
   font-family: 'Space Grotesk', sans-serif;
@@ -224,47 +251,135 @@ nav a:hover {
   font-weight: 500;
   padding: 10px 38px;
   border-radius: 20px;
-  box-shadow: 0 5px 0px #110014, 0 8px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 0px var(--btn-shadow), 0 8px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.2s ease;
 }
 
 .article-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 0px #110014, 0 10px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 7px 0px var(--btn-shadow), 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
 .article-btn:active {
   transform: translateY(2px);
-  box-shadow: 0 3px 0px #110014, 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 3px 0px var(--btn-shadow), 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* ---------- RESPONSIVO ---------- */
+/* ---------- HAMBÚRGUER ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+/* ---------- RESPONSIVO (MOBILE & TABLET) ---------- */
 @media (max-width: 1100px) {
   .articles-section {
-    margin-top: 90px;
+    margin-top: 60px;
     padding: 60px 0 120px;
   }
+
   .articles-grid {
-    gap: 25px;
+    gap: 20px;
   }
+
   .article-card {
     width: 280px;
     min-height: 350px;
   }
+
   .articles-title {
     font-size: 28px;
   }
 }
 
-@media (max-width: 600px) {
-  .articles-section {
-    margin-top: 60px;
-    padding: 40px 0 100px;
+@media (max-width: 768px) {
+  body {
+    padding: 0 0 40px 0;
   }
+
+  header {
+    height: 60px;
+    padding: 0 20px;
+    position: relative;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 18px;
+    order: 1;
+  }
+
+  .right {
+    display: flex !important;
+    align-items: center;
+    order: 2;
+    margin-left: auto;
+    margin-right: 12px;
+  }
+
+  .login-text,
+  .login-icon {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: flex !important;
+    order: 3;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 180px;
+    background: linear-gradient(180deg, #3d0c5a 0%, #a252ed 100%);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 0;
+    gap: 0;
+    box-shadow: -4px 8px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  .articles-section {
+    margin-top: 30px;
+    padding: 40px 10px 60px;
+  }
+
   .articles-title {
     font-size: 22px;
     margin-bottom: 30px;
   }
+
   .article-card {
     width: 100%;
     max-width: 320px;
