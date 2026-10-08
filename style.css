@@ -53,8 +53,14 @@ nav a.active {
   font-weight: 600;
 }
 
-nav a:hover {
+nav a:hover,
+.login-text:hover {
   color: #ffffff;
+}
+
+nav a:active,
+.login-text:active {
+  color: #6f5b72;
 }
 
 .right {
@@ -140,4 +146,10 @@ main p {
   body { padding: 20px; }
   header { padding: 0 20px; }
   main { padding: 25px; }
+}
+
+.login-text {
+  color: #e9e4ec;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }

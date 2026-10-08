@@ -84,3 +84,24 @@ function changeColors(darkmode) {
 if (toggleButton) {
     toggleButton.addEventListener('click', toggleModes)
 }
+
+// Login / Sair (funciona em todas as páginas que tenham o header novo)
+document.addEventListener("DOMContentLoaded", () => {
+    const CHAVE_SESSAO = 'bovtrack_sessao'
+    const btnSair = document.getElementById('btn-sair')
+    const linkLogin = document.getElementById('link-login')
+    if (!btnSair || !linkLogin) return
+
+    const logado = !!(localStorage.getItem(CHAVE_SESSAO) || sessionStorage.getItem(CHAVE_SESSAO))
+
+    if (logado) {
+        linkLogin.style.display = 'none'   // esconde "LOGIN"
+        btnSair.style.display = ''         // mostra o ícone de sair
+    }
+
+    btnSair.addEventListener('click', () => {
+        localStorage.removeItem(CHAVE_SESSAO)
+        sessionStorage.removeItem(CHAVE_SESSAO)
+        window.location.href = 'index.html'
+    })
+})

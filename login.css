@@ -1,0 +1,327 @@
+/* ---------- Cores: modo claro (padrão) ---------- */
+:root {
+  --roxo: #320F3D;
+  --branco: #FFFFFF;
+  --azul-escuro: #041121;
+  --preto: #000000;
+  --azul-70: #041121B2;
+  --cinza-claro: #D9D9D9;
+  --cinza-texto: #A69E9E;
+
+  /* Papéis de cada cor na página (mudam no modo escuro) */
+  --fundo-painel: var(--branco);
+  --titulo: var(--azul-escuro);
+  --subtitulo: var(--azul-70);
+  --campo-fundo: var(--cinza-claro);
+  --campo-texto: var(--azul-escuro);
+  --campo-dica: var(--azul-70);
+  --icone: var(--preto);
+  --etiqueta: var(--cinza-texto);
+  --opcao-fraca: var(--cinza-texto);
+  --opcao-link: var(--azul-70);
+  --linha: var(--cinza-claro);
+  --botao: var(--roxo);
+  --botao-hover: var(--azul-escuro);
+  --foco: var(--roxo);
+  --anel-foco: var(--cinza-texto);
+  --marcador: var(--roxo);
+  --link-alt: var(--azul-70);
+  --erro: #b3261e;
+}
+
+/* ---------- Cores: modo escuro ---------- */
+html.dark {
+  color-scheme: dark;
+
+  --fundo-painel: #2B2A33;
+  --titulo: #FFFFFF;
+  --subtitulo: #FFFFFF;
+  --campo-fundo: #AFAFAF;
+  --campo-texto: #000000;
+  --campo-dica: #041121B2;
+  --icone: #000000;
+  --etiqueta: #AFAFAF;
+  --opcao-fraca: #AFAFAF;
+  --opcao-link: #FFFFFF;
+  --linha: #AFAFAF;
+  --botao: #320F3D;
+  --botao-hover: #000000;
+  --foco: #FFFFFF;
+  --anel-foco: #FFFFFF;
+  --marcador: #AFAFAF;
+  --link-alt: #FFFFFF;
+  --erro: #FF8A80;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  color: var(--titulo);
+  background: var(--fundo-painel);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Estrutura: duas colunas */
+.login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Lado da marca (igual nos dois modos) ---------- */
+.login__brand {
+  background: var(--roxo);
+  color: var(--branco);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
+.login__back {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--branco);
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+.login__back:hover,
+.login__back:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.login__brand-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+/* As imagens originais têm margem transparente.
+   Estas regras recortam só a parte visível. */
+.login__logo {
+  width: min(72%, 400px);
+  aspect-ratio: 949 / 95;
+  background: url("assetsbovtrack/logo-branca.png") 52.42% 49.14% / 202.32% auto no-repeat;
+}
+
+.login__bull {
+  width: min(34%, 200px);
+  aspect-ratio: 568 / 522;
+  background: url("assetsbovtrack/touro.png") 49.04% 55.73% / 338.03% auto no-repeat;
+}
+
+/* ---------- Lado do formulário ---------- */
+.login__panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem 3rem;
+  background: var(--fundo-painel);
+}
+
+.login__tag {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--etiqueta);
+}
+
+.login__form {
+  width: 100%;
+  max-width: 360px;
+}
+
+.login__form h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--titulo);
+}
+
+.login__subtitle {
+  font-size: 0.8rem;
+  color: var(--subtitulo);
+  margin: 0.25rem 0 1.5rem;
+}
+
+/* Campos */
+.field {
+  position: relative;
+  display: block;
+  margin-bottom: 0.9rem;
+}
+
+.field input {
+  width: 100%;
+  height: 46px;
+  padding: 0 2.8rem 0 1rem;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: var(--campo-fundo);
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--campo-texto);
+}
+
+.field input::placeholder {
+  color: var(--campo-dica);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--foco);
+}
+
+.field svg {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  fill: none;
+  stroke: var(--icone);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* Opções abaixo dos campos */
+.login__options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+  margin-bottom: 1.25rem;
+}
+
+.login__options a {
+  color: var(--opcao-link);
+  text-decoration: none;
+}
+
+.login__options a:hover,
+.login__options a:focus-visible {
+  text-decoration: underline;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--opcao-fraca);
+  cursor: pointer;
+}
+
+.check input {
+  accent-color: var(--marcador);
+}
+
+/* Mensagem de erro */
+.login__erro {
+  font-size: 0.8rem;
+  color: var(--erro);
+  margin-bottom: 0.9rem;
+}
+
+/* Botão */
+.login__btn {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: var(--botao);
+  color: var(--branco);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login__btn:hover {
+  background: var(--botao-hover);
+}
+
+.login__btn:focus-visible {
+  outline: 3px solid var(--anel-foco);
+  outline-offset: 2px;
+}
+
+.login__line {
+  border: none;
+  border-top: 1px solid var(--linha);
+  margin-top: 1.25rem;
+}
+
+/* Link para alternar entre login e cadastro */
+.login__alt {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.login__alt a {
+  color: var(--link-alt);
+  text-decoration: none;
+}
+
+.login__alt a:hover,
+.login__alt a:focus-visible {
+  text-decoration: underline;
+}
+
+/* ---------- Celular e telas pequenas ---------- */
+@media (max-width: 800px) {
+  .login {
+    grid-template-columns: 1fr;
+  }
+
+  .login__brand {
+    padding: 4rem 1.5rem 2.5rem;
+  }
+
+  .login__brand-content {
+    gap: 2rem;
+  }
+
+  .login__logo {
+    width: min(70%, 260px);
+  }
+
+  .login__bull {
+    width: 110px;
+  }
+
+  .login__panel {
+    padding: 4rem 1.5rem 3rem;
+  }
+
+  .login__tag {
+    top: 1rem;
+    right: 1.5rem;
+  }
+}

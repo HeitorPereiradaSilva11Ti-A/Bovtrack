@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login | Bovtrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+
+  <script>
+    // Lê o mesmo valor que o botão da lua salva no changemode.js
+    try {
+      if (JSON.parse(localStorage.getItem('darkmode')) === true) {
+        document.documentElement.classList.add('dark');
+      }
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <main class="login">
+
+    <!-- Lado esquerdo: marca -->
+    <section class="login__brand">
+      <a class="login__back" href="index.html">&lsaquo; Voltar para o site</a>
+
+      <div class="login__brand-content">
+        <h1 class="login__logo" role="img" aria-label="Bovtrack"></h1>
+        <div class="login__bull" role="img" aria-label="Touro roxo com circuitos, mascote do Bovtrack"></div>
+      </div>
+    </section>
+
+    <!-- Lado direito: formulário -->
+    <section class="login__panel">
+      <p class="login__tag">Login</p>
+            <form class="login__form" id="form-login" novalidate>
+        <h2>Faça seu login</h2>
+        <p class="login__subtitle">Entre para continuar sua jornada.</p>
+
+        <label class="field">
+          <span class="visually-hidden">E-mail</span>
+          <input type="email" id="email" name="email" placeholder="Digite seu e-mail" autocomplete="email" required>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </label>
+
+        <label class="field">
+          <span class="visually-hidden">Senha</span>
+          <input type="password" id="senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password" required>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        </label>
+
+        <div class="login__options">
+          <label class="check">
+            <input type="checkbox" name="lembrar">
+            <span>Salvar senha</span>
+          </label>
+          <a href="#" id="link-esqueceu">Esqueceu sua senha?</a>
+        </div>
+
+        <p class="login__erro" id="erro" role="alert" hidden></p>
+
+        <button type="submit" class="login__btn">Entrar</button>
+        <hr class="login__line">
+        <p class="login__alt"><a href="cadastro.html">Ainda não tem conta? Cadastre-se</a></p>
+      </form>
+      
+            <form class="login__form" id="form-recuperar" novalidate hidden>
+        <h2 style="margin-bottom:1.5rem">Crie sua senha nova</h2>
+
+        <label class="field">
+          <span class="visually-hidden">E-mail</span>
+          <input type="email" name="email" placeholder="Digite seu e-mail" autocomplete="email" required>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </label>
+
+        <label class="field">
+          <span class="visually-hidden">Nova senha</span>
+          <input type="password" name="nova" placeholder="Digite sua nova senha" autocomplete="new-password" required>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        </label>
+
+        <div class="login__options">
+          <label class="check">
+            <input type="checkbox" name="lembrar">
+            <span>Salvar senha</span>
+          </label>
+        </div>
+
+        <p class="login__erro" id="erro-rec" role="alert" hidden></p>
+
+        <button type="submit" class="login__btn">Usar nova senha</button>
+        <hr class="login__line">
+        <p class="login__alt"><a href="#" id="link-voltar">Voltar para o login</a></p>
+      </form>
+    </section>
+
+  </main>
+
+  <script>
+  const CHAVE_USUARIOS = 'bovtrack_usuarios';
+  const CHAVE_SESSAO = 'bovtrack_sessao';
+
+  // Guarda só o hash da senha, nunca a senha em texto puro
+  async function gerarHash(email, senha) {
+    const texto = email + ':' + senha;
+    if (window.crypto && crypto.subtle) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    return 'plain:' + texto;
+  }
+
+  function lerUsuarios() {
+    try { return JSON.parse(localStorage.getItem(CHAVE_USUARIOS)) || []; }
+    catch (e) { return []; }
+  }
+
+  // Quem já está logado vai direto para o site
+  if (localStorage.getItem(CHAVE_SESSAO) || sessionStorage.getItem(CHAVE_SESSAO)) {
+    window.location.replace('index.html');
+  }
+
+  const form = document.getElementById('form-login');
+  const erro = document.getElementById('erro');
+  const botao = form.querySelector('.login__btn');
+
+  function mostrarErro(msg) {
+    erro.textContent = msg;
+    erro.hidden = false;
+    botao.disabled = false;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    erro.hidden = true;
+    botao.disabled = true;
+
+    const email = form.email.value.trim().toLowerCase();
+    const senha = form.senha.value;
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return mostrarErro('Digite um e-mail válido.');
+    if (senha.length < 6) return mostrarErro('A senha precisa ter pelo menos 6 caracteres.');
+
+    const usuario = lerUsuarios().find(u => u.email === email);
+    const hash = await gerarHash(email, senha);
+    if (!usuario || usuario.senha !== hash) return mostrarErro('E-mail ou senha incorretos.');
+
+    // "Salvar senha" marcado = continua conectado mesmo fechando o navegador
+    const sessao = JSON.stringify({ email, entrouEm: Date.now() });
+    sessionStorage.removeItem(CHAVE_SESSAO);
+    localStorage.removeItem(CHAVE_SESSAO);
+    (form.lembrar.checked ? localStorage : sessionStorage).setItem(CHAVE_SESSAO, sessao);
+
+    window.location.href = 'index.html';
+  });
+  
+    // ---------- Esqueceu a senha ----------
+    const formRec = document.getElementById('form-recuperar');
+    const erroRec = document.getElementById('erro-rec');
+    const tag = document.querySelector('.login__tag');
+
+    function voltarLogin() {
+      formRec.hidden = true;
+      form.hidden = false;
+      tag.textContent = 'Login';
+    }
+
+    function mostrarErroRec(msg, ok) {
+      erroRec.textContent = msg;
+      erroRec.style.color = ok ? '#2e7d32' : '';
+      erroRec.hidden = false;
+    }
+
+    document.getElementById('link-esqueceu').addEventListener('click', (e) => {
+      e.preventDefault();
+      form.hidden = true;
+      formRec.hidden = false;
+      tag.textContent = 'Esqueci minha Senha';
+      formRec.email.value = form.email.value;
+      erroRec.hidden = true;
+    });
+
+    document.getElementById('link-voltar').addEventListener('click', (e) => {
+      e.preventDefault();
+      voltarLogin();
+    });
+
+    formRec.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      erroRec.hidden = true;
+
+      const email = formRec.email.value.trim().toLowerCase();
+      const nova = formRec.nova.value;
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return mostrarErroRec('Digite um e-mail válido.');
+      if (nova.length < 6) return mostrarErroRec('A nova senha precisa ter pelo menos 6 caracteres.');
+
+      const usuarios = lerUsuarios();
+      const i = usuarios.findIndex(u => u.email === email);
+      if (i === -1) return mostrarErroRec('Não encontramos uma conta com esse e-mail.');
+
+      usuarios[i].senha = await gerarHash(email, nova);
+      localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(usuarios));
+
+      mostrarErroRec('Senha alterada! Voltando para o login...', true);
+      setTimeout(() => {
+        const lembrar = formRec.lembrar.checked;
+        formRec.reset();
+        voltarLogin();
+        form.email.value = email;
+        form.senha.value = '';
+        form.lembrar.checked = lembrar;
+      }, 1200);
+    });
+</script>
+
+</body>
+</html>
