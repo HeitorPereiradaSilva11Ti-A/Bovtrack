@@ -27,6 +27,16 @@
   --marcador: var(--roxo);
   --link-alt: var(--azul-70);
   --erro: #b3261e;
+
+  /* Celular (layout do Figma) */
+  --m-barra: #260031;
+  --m-faixa: #EDEDED;
+  --m-card: #450657;
+  --m-campo: #612F70;
+  --m-linha: #FFFFFF;
+  --m-botao: #D4D2D2;
+  --m-botao-texto: #260031;
+  --m-voltar: #705179;
 }
 
 /* ---------- Cores: modo escuro ---------- */
@@ -51,6 +61,13 @@ html.dark {
   --marcador: #AFAFAF;
   --link-alt: #FFFFFF;
   --erro: #FF8A80;
+
+  --m-faixa: #2B2A33;
+  --m-card: #260031;
+  --m-campo: #482A51;
+  --m-botao: #7B6282;
+  --m-botao-texto: #FFFFFF;
+  --m-voltar: #614E66;
 }
 
 * {
@@ -128,6 +145,54 @@ body {
   width: min(34%, 200px);
   aspect-ratio: 568 / 522;
   background: url("assetsbovtrack/touro.png") 49.04% 55.73% / 338.03% auto no-repeat;
+}
+
+/* Botão de tema (lua / sol) */
+.login__tema {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.25rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--branco);
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.login__tema:hover,
+.login__tema:focus-visible {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.login__tema:focus-visible {
+  outline: 2px solid var(--branco);
+}
+
+.login__tema svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Modo claro mostra a lua, modo escuro mostra o sol */
+.login__tema .icone-sol,
+html.dark .login__tema .icone-lua {
+  display: none;
+}
+
+html.dark .login__tema .icone-sol {
+  display: block;
 }
 
 /* ---------- Lado do formulário ---------- */
@@ -294,34 +359,211 @@ body {
   text-decoration: underline;
 }
 
+/* "Voltar" do rodapé: só aparece no celular */
+.login__voltar {
+  display: none;
+}
+
 /* ---------- Celular e telas pequenas ---------- */
 @media (max-width: 800px) {
+  body {
+    background: var(--m-card);
+  }
+
   .login {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    background: var(--m-faixa);
   }
 
+  /* Barra roxa no topo com o logo, e faixa clara com o touro */
   .login__brand {
-    padding: 4rem 1.5rem 2.5rem;
+    background: var(--m-faixa);
+    padding: calc(56px + 1.75rem) 1.5rem 2.75rem;
   }
 
-  .login__brand-content {
-    gap: 2rem;
+  .login__brand::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 56px;
+    background: var(--m-barra);
+  }
+
+  .login__back {
+    display: none;
+  }
+
+  .login__tema {
+    top: 10px;
+    left: auto;
+    right: 0.75rem;
   }
 
   .login__logo {
-    width: min(70%, 260px);
-  }
-
-  .login__bull {
+    position: absolute;
+    top: 21px;
+    left: 1.25rem;
     width: 110px;
   }
 
+  .login__bull {
+    width: 130px;
+  }
+
+  /* Card roxo arredondado com o formulário */
   .login__panel {
-    padding: 4rem 1.5rem 3rem;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2.25rem;
+    padding: 2.5rem 1.75rem 2rem;
+    background: var(--m-card);
+    border-radius: 40px 40px 0 0;
+    color: var(--branco);
   }
 
   .login__tag {
-    top: 1rem;
-    right: 1.5rem;
+    position: static;
+    font-family: 'Lexend Giga', 'Inter', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--branco);
+  }
+
+  .login__form h2,
+  .login__subtitle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* Campo: ícone com nome embaixo à esquerda, campo à direita e linha branca */
+  .field {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    align-items: center;
+    column-gap: 0.4rem;
+    margin-bottom: 2.75rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid var(--m-linha);
+  }
+
+  .field svg {
+    position: static;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    width: 28px;
+    height: 28px;
+    transform: none;
+    stroke: var(--branco);
+  }
+
+  .field .visually-hidden {
+    position: static;
+    grid-column: 1;
+    grid-row: 2;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--branco);
+  }
+
+  .field input {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    height: 36px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    background: var(--m-campo);
+    font-weight: 500;
+    color: var(--branco);
+  }
+
+  .field input::placeholder {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .field input:focus {
+    border-color: var(--branco);
+  }
+
+  .login__options {
+    margin-top: -2.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .login__options a,
+  .check {
+    color: var(--branco);
+  }
+
+  .check input {
+    accent-color: var(--m-campo);
+  }
+
+  .login__erro {
+    color: #FFB4AB;
+  }
+
+  .login__btn {
+    height: 58px;
+    border-radius: 32px 32px 8px 32px;
+    background: var(--m-botao);
+    color: var(--m-botao-texto);
+    font-size: 1.3rem;
+  }
+
+  .login__btn:hover {
+    background: var(--branco);
+    color: var(--m-barra);
+  }
+
+  .login__btn:focus-visible {
+    outline-color: var(--branco);
+  }
+
+  .login__line {
+    border-top-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .login__alt a {
+    color: var(--branco);
+  }
+
+  .login__voltar {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    align-self: flex-end;
+    margin-top: auto;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--branco);
+    text-decoration: none;
+  }
+
+  .login__voltar span {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--m-voltar);
+    font-weight: 400;
+  }
+
+  .login__voltar:hover span,
+  .login__voltar:focus-visible span {
+    background: var(--m-campo);
   }
 }
