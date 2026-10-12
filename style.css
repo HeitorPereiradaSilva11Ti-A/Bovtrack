@@ -153,3 +153,13 @@ main p {
   text-decoration: none;
   transition: all 0.2s ease;
 }
+/* Link de login/sair dentro do menu hambúrguer: só no celular */
+.nav-menu .nav-login {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-menu .nav-login {
+    display: block;
+  }
+}
