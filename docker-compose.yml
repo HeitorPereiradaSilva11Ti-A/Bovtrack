@@ -1,0 +1,71 @@
+# BovTrack no Docker: banco MySQL + phpMyAdmin + site.
+#
+# Subir tudo:     docker compose up -d
+# Parar:          docker compose down
+# Zerar o banco:  docker compose down -v   (apaga os dados e recria do banco.sql)
+#
+# Os parâmetros (senhas e portas) ficam no arquivo .env (copie do .env.example).
+
+services:
+  # Banco de dados. Na primeira vez que sobe, roda o backend/banco.sql sozinho.
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-troque-esta-senha}
+      MYSQL_DATABASE: bovtrack          # o banco.sql usa esse nome, não mude
+      MYSQL_USER: ${MYSQL_USER:-bovtrack}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-bovtrack123}
+      TZ: ${TZ:-America/Sao_Paulo}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./backend/banco.sql:/docker-entrypoint-initdb.d/01-banco.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  # Tela para ver e mexer nas tabelas pelo navegador: http://localhost:8080
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 64M
+    ports:
+      - "${PMA_PORT:-8080}:80"
+
+  # O site (HTML/CSS/JS): http://localhost:8000
+  site:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "${SITE_PORT:-8000}:80"
+
+  # Quando o servidor (backend/servidor.js) estiver pronto, ele entra aqui:
+  # api:
+  #   build: ./backend
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   environment:
+  #     DB_HOST: db
+  #     DB_USER: ${MYSQL_USER:-bovtrack}
+  #     DB_PASSWORD: ${MYSQL_PASSWORD:-bovtrack123}
+  #     DB_NAME: bovtrack
+  #   ports:
+  #     - "${API_PORT:-3000}:3000"
+
+volumes:
+  db_data:
