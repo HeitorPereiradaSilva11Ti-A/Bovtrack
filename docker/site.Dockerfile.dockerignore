@@ -1,0 +1,13 @@
+# Arquivos que NÃO entram na imagem do site
+.git
+.github
+.env
+.env.*
+.gitignore
+.dockerignore
+docker
+!docker/nginx.conf
+docker-compose.yml
+backend
+node_modules
+*.md

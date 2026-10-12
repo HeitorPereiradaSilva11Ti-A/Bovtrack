@@ -49,5 +49,37 @@ Na primeira vez demora um pouco (baixa as imagens). Depois abra:
 | Ver os erros do banco | `docker compose logs db` |
 | **Zerar o banco** e recriar do `banco.sql` | `docker compose down -v` e depois `docker compose up -d` |
 
-O `banco.sql` só roda quando o banco é criado pela primeira vez. Se você mudar
-o `banco.sql`, use o "zerar o banco" para aplicar (isso apaga os dados atuais).
+O `banco.sql` e o site ficam **dentro das imagens**. Se você mudar o
+`banco.sql` ou alguma página, rode `docker compose up -d --build` para montar
+as imagens de novo. Para o banco usar o `banco.sql` novo, também é preciso
+zerar o banco (isso apaga os dados atuais).
+
+## Publicar as imagens no Docker Hub
+
+Assim qualquer pessoa do grupo roda o BovTrack sem precisar do código.
+
+**Quem publica (uma pessoa só):**
+
+1. Crie uma conta grátis em https://hub.docker.com
+2. No `.env`, coloque seu usuário: `DOCKER_USUARIO=seu-usuario`
+3. No terminal, na pasta do projeto:
+
+```
+docker login
+docker compose build
+docker compose push
+```
+
+Pronto: as imagens `seu-usuario/bovtrack-db` e `seu-usuario/bovtrack-site`
+ficam no Docker Hub. Para publicar uma versão nova, rode `build` e `push` de novo.
+Se quiser guardar versões, troque `VERSAO=latest` por `VERSAO=1.0`, `1.1`...
+
+**Quem só vai usar:**
+
+Precisa só de dois arquivos: o `docker-compose.yml` e um `.env` com o mesmo
+`DOCKER_USUARIO` de quem publicou. Na pasta deles:
+
+```
+docker compose pull
+docker compose up -d
+```
