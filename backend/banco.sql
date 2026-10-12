@@ -22,7 +22,6 @@ USE bovtrack;
 -- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS usuarios (
   id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  nome        VARCHAR(100) NOT NULL,
   email       VARCHAR(255) NOT NULL,
   senha_hash  VARCHAR(255) NOT NULL,
   criado_em   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -127,8 +126,8 @@ INSERT IGNORE INTO vacinas (id, usuario_id, nome) VALUES
 -- o hardware. Login: teste@bovtrack.com / senha: bovtrack123
 -- Pode apagar este bloco quando for usar de verdade.
 -- ---------------------------------------------------------------------
-INSERT IGNORE INTO usuarios (id, nome, email, senha_hash) VALUES
-  (1, 'Usuário Teste', 'teste@bovtrack.com', '$2b$10$0zziSQTRn4chmxLjMyi/NulMNiVxO82Lot0d6P2K9F2sTlr6Qx692');
+INSERT IGNORE INTO usuarios (id, email, senha_hash) VALUES
+  (1, 'teste@bovtrack.com', '$2b$10$0zziSQTRn4chmxLjMyi/NulMNiVxO82Lot0d6P2K9F2sTlr6Qx692');
 
 INSERT IGNORE INTO bovinos
   (id, usuario_id, numero, nome, raca_id, data_nascimento, sexo, altura_m, peso_arrobas, categoria) VALUES
