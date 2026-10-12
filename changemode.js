@@ -94,6 +94,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const logado = !!(localStorage.getItem(CHAVE_SESSAO) || sessionStorage.getItem(CHAVE_SESSAO))
 
+    // Menu hambúrguer (celular): no celular o "LOGIN" do header some,
+    // então o link entra no fim do menu. O CSS esconde ele no computador.
+    const navMenu = document.querySelector('.nav-menu')
+    if (navMenu && !navMenu.querySelector('.nav-login')) {
+        const linkMenu = document.createElement('a')
+        linkMenu.className = 'nav-login'
+        if (logado) {
+            linkMenu.href = '#'
+            linkMenu.textContent = 'SAIR'
+            linkMenu.addEventListener('click', (e) => {
+                e.preventDefault()
+                btnSair.click()
+            })
+        } else {
+            linkMenu.href = 'login.html'
+            linkMenu.textContent = 'LOGIN'
+        }
+        navMenu.appendChild(linkMenu)
+    }
+
     if (logado) {
         linkLogin.style.display = 'none'   // esconde "LOGIN"
         btnSair.style.display = ''         // mostra o ícone de sair
