@@ -264,3 +264,297 @@ main {
     font-size: 15px;
   }
 }
+
+/* =====================================================================
+   PÁGINA DO JOGO (layout do Figma)
+   ===================================================================== */
+:root {
+  --jogo-madeira: #8B5224;
+  --jogo-madeira-escura: #5A2D0C;
+  --jogo-botao: #E3BBA3;
+  --jogo-creme: #EFE9DD;
+  --jogo-moldura: #D9C6B0;
+  --jogo-titulo: #5A2D0C;
+}
+
+body.darkmode {
+  --jogo-creme: #2B2A33;
+  --jogo-moldura: #3A2A22;
+  --jogo-titulo: #E3BBA3;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* O jogo não usa a caixa branca das outras páginas */
+main.jogo {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  min-height: 0;
+  font-family: 'Lexend', 'Space Grotesk', sans-serif;
+}
+
+.jogo-topo {
+  display: none;
+}
+
+/* ---------- Card preto com o logo ---------- */
+.jogo-moldura {
+  max-width: 1036px;
+  margin: 110px auto 0;
+  padding: 0 20px;
+}
+
+.jogo-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1036 / 583;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8%;
+  border-radius: 18px;
+  background: #000000;
+}
+
+.jogo-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jogo-logo,
+.jogo-btn {
+  position: relative;  /* fica por cima do vídeo */
+}
+
+.jogo-logo {
+  width: 33%;
+  height: auto;
+}
+
+.jogo-btn {
+  width: 52%;
+  padding: 0.55em 1em;
+  border: 1px solid var(--jogo-madeira-escura);
+  border-radius: 10px;
+  background: var(--jogo-botao);
+  color: var(--jogo-madeira-escura);
+  font-size: clamp(1.1rem, 2.6vw, 2.2rem);
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.jogo-btn:hover,
+.jogo-btn:focus-visible {
+  background: #F2D3BF;
+  transform: translateY(-2px);
+}
+
+.jogo-btn:focus-visible {
+  outline: 3px solid var(--jogo-botao);
+  outline-offset: 3px;
+}
+
+/* ---------- História: placa de madeira sobre o cânion ---------- */
+.jogo-historia {
+  /* ocupa a largura toda da tela, mesmo com o padding do body */
+  width: 100vw;
+  margin: 60px 0 -80px calc(50% - 50vw);
+  padding: 260px 20px 160px;
+  background:
+    url("assetsbovtrack/jogo/canion.webp") center bottom / 100% auto no-repeat,
+    linear-gradient(180deg, var(--bg-color) 0%, #A9774C 35%, #D9A35A 70%);
+}
+
+.jogo-titulo {
+  display: none;  /* aparece só no celular */
+}
+
+.jogo-placa-borda {
+  max-width: 1022px;
+  margin: 0 auto;
+}
+
+.jogo-placa {
+  position: relative;
+  padding: 70px 9% 60px;
+  border: 14px solid var(--jogo-madeira-escura);
+  border-radius: 24px;
+  background: var(--jogo-madeira);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.darkmode .jogo-placa {
+  background: rgba(139, 82, 36, 0.88);
+}
+
+.jogo-placa p {
+  margin: 0;
+  color: #FFFFFF;
+  font-size: clamp(1rem, 2.1vw, 1.75rem);
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* Pregos nos quatro cantos */
+.jogo-prego {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2A1A10;
+}
+
+.jogo-prego::before,
+.jogo-prego::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 2px;
+  background: #8B6A55;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.jogo-prego::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.jogo-prego:nth-of-type(1) { top: 18px; left: 18px; }
+.jogo-prego:nth-of-type(2) { top: 18px; right: 18px; }
+.jogo-prego:nth-of-type(3) { bottom: 18px; left: 18px; }
+.jogo-prego:nth-of-type(4) { bottom: 18px; right: 18px; }
+
+.jogo-ferradura {
+  position: absolute;
+  top: -40px;
+  right: -46px;
+  width: clamp(70px, 10vw, 130px);
+  transform: rotate(8deg);
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 768px) {
+  .jogo-topo {
+    display: block;
+    width: 100%;
+    height: 330px;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+
+  /* Painel creme arredondado que sobe por cima do cânion */
+  .jogo-painel {
+    position: relative;
+    margin-top: -50px;
+    margin-bottom: -40px;  /* cobre o espaço que o body deixa no fim */
+    padding: 28px 20px 60px;
+    border-radius: 36px 36px 0 0;
+    background: var(--jogo-creme);
+  }
+
+  .jogo-moldura {
+    margin: 0;
+    padding: 18px 0;
+    border-radius: 30px;
+    background:
+      url("assetsbovtrack/jogo/canion.webp") center 70% / cover no-repeat,
+      var(--jogo-moldura);
+  }
+
+  .jogo-card {
+    width: 70%;
+    margin: 0 auto;
+    aspect-ratio: 351 / 225;
+    gap: 10%;
+    border-radius: 26px;
+  }
+
+  .jogo-logo {
+    width: 38%;
+  }
+
+  .jogo-btn {
+    width: 74%;
+    padding: 0.3em 0.5em;
+    border: 3px solid var(--jogo-madeira-escura);
+    background: #A0612F;
+    color: #2A1408;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .jogo-historia {
+    width: auto;
+    margin: 32px 0 0;
+    padding: 0;
+    background: none;
+  }
+
+  .jogo-titulo {
+    display: block;
+    margin: 0 0 14px 6px;
+    color: var(--jogo-titulo);
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+
+  .jogo-placa-borda {
+    padding: 14px;
+    border-radius: 30px;
+    background: var(--jogo-moldura);
+  }
+
+  .jogo-placa {
+    padding: 44px 26px 40px;
+    border-width: 10px;
+    border-color: #6B4A2F;
+    border-radius: 16px;
+    background: #8A5E3B;
+  }
+
+  .jogo-placa p {
+    font-size: 0.85rem;
+  }
+
+  .jogo-prego {
+    width: 12px;
+    height: 12px;
+  }
+
+  .jogo-prego::before,
+  .jogo-prego::after {
+    width: 7px;
+  }
+
+  .jogo-prego:nth-of-type(1),
+  .jogo-prego:nth-of-type(2) { top: 10px; }
+  .jogo-prego:nth-of-type(3),
+  .jogo-prego:nth-of-type(4) { bottom: 10px; }
+  .jogo-prego:nth-of-type(1),
+  .jogo-prego:nth-of-type(3) { left: 10px; }
+  .jogo-prego:nth-of-type(2),
+  .jogo-prego:nth-of-type(4) { right: 10px; }
+
+  .jogo-ferradura {
+    top: -26px;
+    right: -22px;
+    width: 64px;
+  }
+}

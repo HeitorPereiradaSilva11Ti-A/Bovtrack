@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&family=Lexend+Giga:wght@100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="jogo.css">
@@ -54,9 +54,49 @@
   </div>
 </header>
 
-<main>
-  <h1 class="page-title">Jogo</h1>
-  <p class="page-description">Área destinada ao jogo e às atividades interativas do Bovtrack.</p>
+<main class="jogo">
+
+  <!-- Imagem do cânion no topo (só no celular) -->
+  <img class="jogo-topo" src="assetsbovtrack/jogo/canion.webp" alt="" aria-hidden="true">
+
+  <div class="jogo-painel">
+    <h1 class="visually-hidden">Jogo: A Morte do Vaqueiro</h1>
+
+    <!-- Card do jogo -->
+    <section class="jogo-moldura">
+      <div class="jogo-card">
+        <!--
+          Para colocar o vídeo do jogo no lugar do fundo preto, descomente:
+          <video class="jogo-video" src="assetsbovtrack/jogo/video.mp4" autoplay muted loop playsinline></video>
+        -->
+        <img class="jogo-logo" src="assetsbovtrack/jogo/logo-vaqueiro.png" alt="A Morte do Vaqueiro">
+        <!-- Troque o href pelo link do jogo -->
+        <a class="jogo-btn" href="#">Jogue agora</a>
+      </div>
+    </section>
+
+    <!-- História -->
+    <section class="jogo-historia">
+      <h2 class="jogo-titulo">História</h2>
+      <div class="jogo-placa-borda">
+        <div class="jogo-placa">
+          <span class="jogo-prego" aria-hidden="true"></span>
+          <span class="jogo-prego" aria-hidden="true"></span>
+          <span class="jogo-prego" aria-hidden="true"></span>
+          <span class="jogo-prego" aria-hidden="true"></span>
+          <img class="jogo-ferradura" src="assetsbovtrack/jogo/ferradura.png" alt="" aria-hidden="true">
+          <p>
+            O Gonzaga, um cara de cidade grande, recebeu por herança o curral de seu
+            antigo avô, que havia falecido, e soube sobre a herança pelo açougueiro;
+            além disso, ele recebeu um diário que pertencia a seu avô. Chegando ao
+            curral, Gonzaga nota um laço brilhante que, quando tocado, revela uma parte
+            secreta no diário, que esconde a explicação do seu uso, e com o laço,
+            Gonzaga irá aprender a cuidar do curral.
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
 
 </body>
