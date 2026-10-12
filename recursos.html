@@ -4,19 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recursos - Bovtrack</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&family=Saira+Semi+Condensed:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="recursos.css">
-
   <!-- Script Unificado de Tema e Navegação -->
   <script src="changemode.js" defer></script>
+  <script src="recursos-dados.js" defer></script>
+  <script src="recursos.js" defer></script>
 </head>
-<body>
-
+<body data-pagina="inicio">
 <header>
   <a href="index.html" class="logo">BOVTRACK</a>
 
@@ -54,10 +52,32 @@
   </div>
 </header>
 
-<main>
-  <h1 class="page-title">Recursos</h1>
-  <p class="page-description">Confira os recursos e ferramentas disponíveis no Bovtrack.</p>
-</main>
+<main class="rec">
+  <h1 class="visually-hidden">Recursos</h1>
+  <div class="rec-home">
+    <a class="rec-hero" href="registros.html">
+      <img src="assetsbovtrack/recursos/gado.jpg" alt="">
+      <span>Registros</span>
+    </a>
 
+    <a class="rec-tile rec-tile--temp" href="temperatura.html">
+      <span class="rec-tile__icone" data-icone="temperatura"></span>
+      <span class="rec-tile__texto">Dados de temperatura</span>
+    </a>
+
+    <a class="rec-tile rec-tile--voc" href="vocalizacao.html">
+      <span class="rec-tile__icone" data-icone="vocalizacao"></span>
+      <span class="rec-tile__texto">Dados de vocalização</span>
+    </a>
+
+    <a class="rec-fan" href="resfriamento.html">
+      <span class="rec-fan__texto">Sistema de resfriamento</span>
+      <span class="rec-fan__vento" data-icone="vento"></span>
+      <span class="rec-fan__icone" data-icone="ventilador"></span>
+    </a>
+
+    <section class="grafico" id="grafico" aria-label="Situação dos animais agora"></section>
+  </div>
+</main>
 </body>
 </html>

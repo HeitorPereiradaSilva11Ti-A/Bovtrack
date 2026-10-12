@@ -264,3 +264,944 @@ main {
     font-size: 15px;
   }
 }
+
+/* =====================================================================
+   PÁGINAS DE RECURSOS (layout do Figma)
+   ===================================================================== */
+:root {
+  --rec-fonte: 'Saira Semi Condensed', 'Space Grotesk', sans-serif;
+  --rec-roxo: #260031;
+  --rec-lilas: #B59BC1;
+  --rec-borda: #2B0F30;
+  --rec-card: #F0F0F0;
+  --rec-card-borda: #000000;
+  --rec-painel: #EEEEEE;
+  --rec-painel-texto: #000000;
+  --rec-linha: #A8A8A8;
+  --rec-alerta: #C0000C;
+  --rec-busca: #FFFFFF;
+  --rec-busca-borda: #2B0F30;
+  --rec-voltar: #2B0F30;
+  --rec-potencia: #73008C;
+}
+
+body.darkmode {
+  --rec-card: #C9C5C9;
+  --rec-card-borda: #1A161D;
+  --rec-painel: #3A3842;
+  --rec-painel-texto: #FFFFFF;
+  --rec-linha: #77707F;
+  --rec-alerta: #FF5A5F;
+  --rec-busca: #7B5B88;
+  --rec-busca-borda: #7B5B88;
+  --rec-voltar: #9A3FC0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* As páginas de recursos não usam a caixa branca */
+main.rec {
+  background: none;
+  box-shadow: none;
+  padding: 0 20px;
+  min-height: 0;
+  font-family: var(--rec-fonte);
+  color: var(--text-primary);
+}
+
+main.rec a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main.rec :focus-visible {
+  outline: 3px solid var(--rec-lilas);
+  outline-offset: 3px;
+}
+
+/* ---------- Título com seta de voltar ---------- */
+.rec-topo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 40px;
+}
+
+.rec-voltar {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--rec-voltar) !important;
+}
+
+.rec-voltar svg {
+  width: 30px;
+  height: 30px;
+}
+
+.rec-titulo {
+  margin: 0;
+  font-family: var(--rec-fonte);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 400;
+  color: var(--title-color);
+}
+
+.rec-link {
+  margin-left: auto;
+  font-size: 1.05rem;
+  color: var(--text-secondary) !important;
+}
+
+.rec-link:hover {
+  text-decoration: underline !important;
+}
+
+.rec-subtitulo {
+  margin: 28px 0 18px;
+  font-family: var(--rec-fonte);
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.rec-vazio {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* ---------- Recursos (início) ---------- */
+.rec-home {
+  display: grid;
+  grid-template-columns: minmax(0, 3.2fr) minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: 60px 50px;
+  padding-top: 40px;
+}
+
+.rec-hero {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 717 / 387;
+  border-radius: 14px;
+  box-shadow: 0 4px 0 #B59BC1;
+}
+
+.rec-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.rec-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(91, 46, 120, 0.55), rgba(91, 46, 120, 0.25));
+}
+
+.rec-hero span {
+  position: absolute;
+  left: 4%;
+  bottom: 14%;
+  z-index: 1;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-weight: 300;
+  color: #FFFFFF;
+}
+
+.rec-hero:hover img {
+  transform: scale(1.04);
+}
+
+/* Cards lilás com ícone (temperatura / vocalização) */
+.rec-tile {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 300px;
+  padding: 0 12px 70px;
+  border: 1px solid var(--rec-borda);
+  border-radius: 12px;
+  background: var(--rec-lilas);
+  color: var(--rec-roxo) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rec-tile:hover,
+.rec-fan:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(43, 15, 48, 0.25);
+}
+
+.rec-tile__icone {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 72%;
+  transform: translateX(-50%);
+}
+
+.rec-tile--temp .rec-tile__icone {
+  left: auto;
+  right: -2px;
+  top: -4px;
+  width: 95%;
+  transform: none;
+}
+
+.rec-tile__icone svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ico-temp {
+  transform: scaleX(-1);  /* no Figma o termômetro fica do lado direito */
+}
+
+.rec-tile__texto {
+  font-size: clamp(1.2rem, 2vw, 1.75rem);
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Card "Sistema de resfriamento" */
+.rec-fan {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  min-height: 176px;
+  padding: 30px 9%;
+  border: 1px solid var(--rec-borda);
+  border-radius: 12px;
+  background: var(--rec-lilas);
+  color: var(--rec-roxo) !important;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.rec-fan__texto {
+  position: relative;
+  z-index: 1;
+  display: block;
+  max-width: 50%;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.2;
+}
+
+.rec-fan__icone {
+  position: absolute;
+  right: 3%;
+  bottom: -18%;
+  width: 34%;
+  max-width: 260px;
+}
+
+.rec-fan__vento {
+  position: absolute;
+  right: 31%;
+  top: 22%;
+  width: 14%;
+  max-width: 100px;
+  color: #8A3AA0;
+}
+
+.rec-fan__icone svg,
+.rec-fan__vento svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.grafico {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  grid-column: span 2;
+  padding: 22px 26px;
+  border: 1px solid #C9C5C9;
+  background: #FFFFFF;
+  color: #000000;
+  font-family: var(--rec-fonte);
+}
+
+body.darkmode .grafico {
+  border-color: #8A8592;
+  background: transparent;
+  color: #FFFFFF;
+}
+
+.grafico__legenda {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.95rem;
+}
+
+.grafico__legenda li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.grafico__cor {
+  display: inline-block;
+  width: 24px;
+  height: 22px;
+}
+
+.grafico__cor--regular { background: #9E9E9E; }
+.grafico__cor--voc     { background: #8A3AA0; }
+.grafico__cor--temp    { background: #CF8FE0; }
+.grafico__cor--total   { background: #260031; }
+
+body.darkmode .grafico__cor--total {
+  background: #4B1360;
+}
+
+.grafico__barras {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  flex: 1;
+  height: 130px;
+  border-bottom: 2px solid #8A8592;
+}
+
+.grafico__coluna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 18px;
+}
+
+.grafico__valor {
+  margin-bottom: 4px;
+  font-size: 0.8rem;
+}
+
+.grafico__barra {
+  display: block;
+  width: 100%;
+  min-height: 2px;
+}
+
+/* ---------- Card de um animal ---------- */
+.boi-grade {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px 50px;
+}
+
+.boi-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  min-height: 200px;
+  border: 1px solid var(--rec-card-borda);
+  border-radius: 15px;
+  background: var(--rec-card);
+  color: #000000 !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+a.boi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+.boi-card__img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 42%;
+  height: auto;
+  max-height: 92%;
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+.boi-card__info {
+  width: 50%;
+  padding: 22px 6% 18px 0;
+}
+
+.boi-card__info p {
+  margin: 0;
+  color: #000000;
+  font-size: clamp(1rem, 1.6vw, 1.45rem);
+  line-height: 1.5;
+}
+
+.boi-card__info .boi-card__num,
+.boi-card__info .boi-card__raca {
+  color: var(--rec-roxo);
+}
+
+/* Linhas finas depois do nome e da raça, como no Figma */
+.boi-card__nome,
+.boi-card__raca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.boi-card__nome::after,
+.boi-card__raca::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #B5B5B5;
+}
+
+.boi-card__rodape {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 12px;
+}
+
+.boi-card__estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(0.9rem, 1.3vw, 1.2rem);
+}
+
+.boi-card__estado svg {
+  width: 34px;
+  height: 34px;
+  color: var(--rec-roxo);
+}
+
+/* Bolinha vermelha nos estados irregulares */
+.boi-card__estado.is-irregular::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rec-alerta);
+}
+
+.boi-card__valor {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+}
+
+.boi-card__valor small {
+  font-size: 0.85rem;
+}
+
+/* Busca da página Registros */
+.rec-busca {
+  position: relative;
+  flex: 0 1 420px;
+  margin-left: auto;
+}
+
+.rec-busca input {
+  width: 100%;
+  height: 36px;
+  padding: 0 44px 0 18px;
+  border: 1px solid var(--rec-busca-borda);
+  border-radius: 999px;
+  background: var(--rec-busca);
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+}
+
+body.darkmode .rec-busca input::placeholder {
+  color: #E9E4EC;
+}
+
+.rec-busca input:focus {
+  outline: 2px solid var(--rec-lilas);
+}
+
+.rec-busca svg {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ---------- Registro animal ---------- */
+.animal {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 50px 80px;
+}
+
+.animal__atalhos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  margin-top: 70px;
+}
+
+.rec-tile--claro {
+  min-height: 300px;
+  padding-bottom: 40px;
+  background: var(--rec-card);
+}
+
+.rec-tile--claro .rec-tile__icone {
+  width: 45%;
+}
+
+.rec-tile--claro.rec-tile--temp .rec-tile__icone {
+  width: 62%;
+}
+
+.ficha {
+  margin: 0 0 36px;
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--rec-linha);
+}
+
+.ficha__linha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3rem;
+  line-height: 1.6;
+}
+
+.ficha__linha::after {
+  content: "";
+  order: 1;
+  flex: 1;
+  height: 1px;
+  background: var(--rec-linha);
+}
+
+.ficha dt {
+  order: 0;
+  font-weight: 500;
+}
+
+.ficha dd {
+  order: 2;
+  margin: 0;
+}
+
+.animal__subtitulo {
+  margin: 0 0 22px;
+  font-family: var(--rec-fonte);
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.vacinas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.vacina {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.vacina input {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  accent-color: #5D5360;
+  cursor: pointer;
+}
+
+.vacina--add {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+}
+
+.vacina--add svg {
+  width: 32px;
+  height: 32px;
+}
+
+.vacina-form[hidden] {
+  display: none;
+}
+
+.vacina-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.vacina-form input {
+  flex: 1 1 200px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--rec-borda);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.vacina-form button {
+  height: 38px;
+  padding: 0 18px;
+  border: 1px solid var(--rec-borda);
+  border-radius: 8px;
+  background: var(--rec-lilas);
+  color: var(--rec-roxo);
+  font: inherit;
+  cursor: pointer;
+}
+
+.vacina-form button[data-cancelar] {
+  background: transparent;
+  color: inherit;
+}
+
+/* ---------- Histórico (Hoje / Ontem) ---------- */
+.historico {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px;
+}
+
+.historico__painel {
+  min-height: 420px;
+  padding: 30px 7%;
+  border-radius: 24px;
+  background: var(--rec-painel);
+  color: var(--rec-painel-texto);
+}
+
+.historico__painel h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 24px;
+  font-family: var(--rec-fonte);
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+
+.historico__painel small {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+}
+
+.historico__painel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.historico__painel li {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 1.1rem;
+  line-height: 1.9;
+}
+
+.historico__hora {
+  position: relative;
+  min-width: 48px;
+}
+
+.historico__linha {
+  flex: 1;
+  height: 1px;
+  background: var(--rec-linha);
+}
+
+.historico__painel li.is-irregular .historico__hora,
+.historico__painel li.is-irregular .historico__valor {
+  opacity: 0.75;
+}
+
+.historico__alerta {
+  position: absolute;
+  left: -9px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--rec-alerta);
+}
+
+/* ---------- Sistema de resfriamento ---------- */
+.resfriamento {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  gap: 40px 60px;
+}
+
+.rec-fan--botao {
+  min-height: 210px;
+}
+
+.rec-fan--botao.is-ligado {
+  background: #CDB6D8;
+  box-shadow: 0 0 0 3px #8A3AA0;
+}
+
+.rec-fan--botao.is-ligado .rec-fan__icone svg {
+  animation: girar 1.4s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rec-fan--botao.is-ligado .rec-fan__icone svg {
+    animation: none;
+  }
+}
+
+.potencia {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6%;
+}
+
+.potencia__btn {
+  aspect-ratio: 1;
+  max-width: 120px;
+  border: 1px solid var(--rec-borda);
+  border-radius: 6px;
+  background: var(--rec-potencia);
+  color: #FFFFFF;
+  font-family: var(--rec-fonte);
+  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.potencia__btn.is-ativo {
+  background: var(--rec-lilas);
+}
+
+.gastos {
+  margin: 0;
+  padding: 8px 0;
+  border-left: 1px solid var(--text-secondary);
+  list-style: none;
+}
+
+.gastos__linha {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.gastos__mes {
+  flex: 0 0 auto;
+  padding: 3px 8px;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+}
+
+.gastos__texto {
+  flex: 1;
+  text-align: right;
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+
+.gastos__barra {
+  flex: 0 0 auto;
+  height: 24px;
+}
+
+.gastos__linha--0 .gastos__mes, .gastos__linha--0 .gastos__barra { background: #111111; }
+.gastos__linha--1 .gastos__mes, .gastos__linha--1 .gastos__barra { background: #8A3AA0; }
+.gastos__linha--2 .gastos__mes, .gastos__linha--2 .gastos__barra { background: #CF8FE0; }
+.gastos__linha--3 .gastos__mes, .gastos__linha--3 .gastos__barra { background: #260031; }
+
+body.darkmode .gastos__linha--0 .gastos__mes,
+body.darkmode .gastos__linha--0 .gastos__barra { background: #000000; }
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1100px) {
+  .rec-home {
+    gap: 36px 28px;
+  }
+
+  .boi-grade {
+    gap: 28px;
+  }
+
+  .animal {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 768px) {
+  main.rec {
+    padding: 0 16px;
+  }
+
+  .rec-topo {
+    margin-bottom: 24px;
+  }
+
+  .rec-busca {
+    flex-basis: 100%;
+    margin-left: 0;
+  }
+
+  .rec-link {
+    flex-basis: 100%;
+    margin-left: 60px;
+  }
+
+  .rec-home {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding-top: 10px;
+  }
+
+  .rec-hero {
+    grid-column: span 2;
+  }
+
+  .rec-tile {
+    min-height: 0;
+    aspect-ratio: 1;
+    padding-bottom: 14px;
+  }
+
+  .rec-tile__icone {
+    width: 50%;
+  }
+
+  .rec-tile--temp .rec-tile__icone {
+    width: 70%;
+  }
+
+  .rec-tile__texto {
+    font-size: 0.95rem;
+  }
+
+  .rec-fan,
+  .grafico {
+    grid-column: span 2;
+  }
+
+  .rec-fan {
+    min-height: 110px;
+    padding: 20px 6%;
+  }
+
+  .grafico {
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .grafico__legenda {
+    font-size: 0.75rem;
+  }
+
+  .grafico__cor {
+    width: 16px;
+    height: 16px;
+  }
+
+  .boi-grade {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .boi-card {
+    min-height: 140px;
+  }
+
+  .boi-card__info {
+    width: 56%;
+    padding: 14px 5% 12px 0;
+  }
+
+  .boi-card__estado svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .animal__atalhos {
+    gap: 18px;
+    margin-top: 24px;
+  }
+
+  .rec-tile--claro {
+    min-height: 0;
+  }
+
+  .ficha__linha,
+  .vacina {
+    font-size: 1.05rem;
+  }
+
+  .vacinas {
+    grid-template-columns: 1fr;
+  }
+
+  .historico,
+  .resfriamento {
+    grid-template-columns: 1fr;
+  }
+
+  .historico__painel {
+    min-height: 0;
+    padding: 22px 8%;
+  }
+
+  .historico__painel h2 {
+    font-size: 1.7rem;
+  }
+
+  .historico__painel li {
+    font-size: 1rem;
+  }
+
+  .potencia {
+    gap: 4%;
+  }
+
+  .gastos__texto {
+    font-size: 1rem;
+  }
+}

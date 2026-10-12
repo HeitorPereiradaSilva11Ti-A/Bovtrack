@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de resfriamento - Bovtrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&family=Saira+Semi+Condensed:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="recursos.css">
+  <!-- Script Unificado de Tema e Navegação -->
+  <script src="changemode.js" defer></script>
+  <script src="recursos-dados.js" defer></script>
+  <script src="recursos.js" defer></script>
+</head>
+<body data-pagina="resfriamento">
+<header>
+  <a href="index.html" class="logo">BOVTRACK</a>
+
+  <button class="hamburger" id="hamburgerBtn" aria-label="Abrir Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-menu" id="navMenu">
+    <a href="instrucoes.html">INSTRUÇÕES</a>
+    <a href="produto.html">PRODUTO</a>
+    <a href="quem-somos.html">QUEM SOMOS</a>
+    <a href="referencias.html">REFERÊNCIAS</a>
+    <a href="jogo.html">JOGO</a>
+    <a href="recursos.html" class="active">RECURSOS</a>
+  </nav>
+
+  <div class="right">
+    <button class="theme-toggle" aria-label="Alternar tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2b0f30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+        <a href="login.html" class="login-text" id="link-login">LOGIN</a>
+
+    <button class="login-icon" id="btn-sair" aria-label="Sair da conta" title="Sair" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="rec">
+  <div class="rec-topo">
+    <a class="rec-voltar" href="recursos.html" aria-label="Voltar"><span data-icone="voltar"></span></a>
+    <h1 class="rec-titulo">Sistema de resfriamento</h1>
+  </div>
+
+  <div class="resfriamento">
+    <div>
+      <button type="button" class="rec-fan rec-fan--botao" id="btn-ligar" aria-pressed="false">
+        <span class="rec-fan__texto" id="txt-ligar">Ligar sistema de resfriamento</span>
+        <span class="rec-fan__vento" data-icone="vento"></span>
+        <span class="rec-fan__icone" data-icone="ventilador"></span>
+      </button>
+
+      <h2 class="rec-subtitulo">Potência:</h2>
+      <div class="potencia" role="group" aria-label="Potência">
+        <button type="button" class="potencia__btn" data-valor="25">25%</button>
+        <button type="button" class="potencia__btn" data-valor="50">50%</button>
+        <button type="button" class="potencia__btn" data-valor="75">75%</button>
+        <button type="button" class="potencia__btn" data-valor="100">100%</button>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="rec-subtitulo">Registro de gastos:</h2>
+      <ul class="gastos" id="gastos"></ul>
+    </div>
+  </div>
+</main>
+</body>
+</html>
