@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro animal - Bovtrack</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&family=Saira+Semi+Condensed:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="recursos.css">
+  <!-- Script Unificado de Tema e Navegação -->
+  <script src="changemode.js" defer></script>
+  <script src="recursos-dados.js" defer></script>
+  <script src="recursos.js" defer></script>
+</head>
+<body data-pagina="animal">
+<header>
+  <a href="index.html" class="logo">BOVTRACK</a>
+
+  <button class="hamburger" id="hamburgerBtn" aria-label="Abrir Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav class="nav-menu" id="navMenu">
+    <a href="instrucoes.html">INSTRUÇÕES</a>
+    <a href="produto.html">PRODUTO</a>
+    <a href="quem-somos.html">QUEM SOMOS</a>
+    <a href="referencias.html">REFERÊNCIAS</a>
+    <a href="jogo.html">JOGO</a>
+    <a href="recursos.html" class="active">RECURSOS</a>
+  </nav>
+
+  <div class="right">
+    <button class="theme-toggle" aria-label="Alternar tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#2b0f30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+
+        <a href="login.html" class="login-text" id="link-login">LOGIN</a>
+
+    <button class="login-icon" id="btn-sair" aria-label="Sair da conta" title="Sair" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<main class="rec">
+  <div class="rec-topo">
+    <a class="rec-voltar" href="registros.html" aria-label="Voltar"><span data-icone="voltar"></span></a>
+    <h1 class="rec-titulo">Registro animal</h1>
+  </div>
+
+  <div class="animal">
+    <div class="animal__esquerda">
+      <div id="card-animal"></div>
+
+      <div class="animal__atalhos">
+        <a class="rec-tile rec-tile--claro rec-tile--temp" id="link-temp" href="#">
+          <span class="rec-tile__icone" data-icone="temperatura"></span>
+          <span class="rec-tile__texto">Dados de temperatura</span>
+        </a>
+        <a class="rec-tile rec-tile--claro rec-tile--voc" id="link-voc" href="#">
+          <span class="rec-tile__icone" data-icone="vocalizacao"></span>
+          <span class="rec-tile__texto">Dados de vocalização</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="animal__direita">
+      <dl class="ficha" id="dados-animal"></dl>
+
+      <h2 class="animal__subtitulo">Vacinas</h2>
+      <ul class="vacinas" id="vacinas"></ul>
+
+      <button type="button" class="vacina vacina--add" id="btn-add-vacina">
+        <span data-icone="mais"></span> Adicionar vacina
+      </button>
+
+      <form class="vacina-form" id="form-vacina" hidden>
+        <label>
+          <span class="visually-hidden">Nome da vacina</span>
+          <input type="text" name="nome" placeholder="Nome da vacina" maxlength="100" required>
+        </label>
+        <button type="submit">Salvar</button>
+        <button type="button" data-cancelar>Cancelar</button>
+      </form>
+    </div>
+  </div>
+</main>
+</body>
+</html>
