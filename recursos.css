@@ -1355,3 +1355,12 @@ body.darkmode .gastos__linha--0 .gastos__barra { background: #000000; }
     width: 100%;
   }
 }
+
+.rec-vazio a {
+  color: #8A3AA0 !important;
+  text-decoration: underline !important;
+}
+
+.rec-erro {
+  color: var(--rec-alerta);
+}

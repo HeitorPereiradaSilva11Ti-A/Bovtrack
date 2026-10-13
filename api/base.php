@@ -95,3 +95,24 @@ function entrar(int $id, string $email, bool $lembrar): void {
     $_SESSION['usuario_id'] = $id;
     $_SESSION['email'] = $email;
 }
+
+// ---------- Regras (as mesmas da central) ----------
+const LIMITE_TEMP = 39;   // animal com 39 °C ou mais = temperatura irregular
+const LIMITE_SONS = 3;    // 3 ou mais sons na janela = vocalização irregular
+
+// Início e fim de "hoje" ou "ontem" no formato do banco
+function intervaloDoDia(string $dia): array {
+    $inicio = new DateTime('today');
+    if ($dia === 'ontem') $inicio->modify('-1 day');
+    $fim = (clone $inicio)->modify('+1 day');
+    return [$inicio->format('Y-m-d H:i:s'), $fim->format('Y-m-d H:i:s')];
+}
+
+// O animal é do usuário logado? Devolve o id ou responde 404.
+function animalDoUsuario(int $usuario, $id): int {
+    $sql = banco()->prepare('SELECT id FROM bovinos WHERE id = ? AND usuario_id = ?');
+    $sql->execute([(int)$id, $usuario]);
+    $animal = $sql->fetch();
+    if (!$animal) erro('Animal não encontrado.', 404);
+    return (int)$animal['id'];
+}

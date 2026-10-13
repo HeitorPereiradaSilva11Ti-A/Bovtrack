@@ -55,8 +55,8 @@ function cardAnimal(a, rodape, href) {
       <span class="boi-card__estado ${e.vocalizacao === 'Irregular' ? 'is-irregular' : ''}">${ICONES.vocalizacao}${e.vocalizacao}</span>`;
   } else {
     const r = BovDados.resumo(a.id);
-    const agora = rodape === 'temperatura' ? numero(r.tempAgora) + '°' : r.sonsAgora;
-    const media = rodape === 'temperatura' ? numero(r.tempMedia) + '°' : numero(r.sonsMedia);
+    const agora = !r ? '--' : rodape === 'temperatura' ? numero(r.tempAgora) + '°' : r.sonsAgora;
+    const media = !r ? '--' : rodape === 'temperatura' ? numero(r.tempMedia) + '°' : numero(r.sonsMedia);
     base = `
       <span class="boi-card__valor"><small>Agora</small>${agora}</span>
       <span class="boi-card__valor"><small>Média</small>${media}</span>`;
@@ -82,6 +82,7 @@ const PAGINAS = {
     const contagem = { regular: 0, vocalizacao: 0, temperatura: 0, total: 0 };
     BovDados.animais().forEach(a => {
       const e = BovDados.estado(a.id);
+      if (e.temperatura === 'Sem dados') return;  // animal ainda sem leituras
       const t = e.temperatura === 'Irregular';
       const v = e.vocalizacao === 'Irregular';
       if (t && v) contagem.total++;
@@ -125,6 +126,9 @@ const PAGINAS = {
         a.raca.toLowerCase().includes(termo));
       lista.innerHTML = achados.map(a => cardAnimal(a, 'estado', `animal.html?id=${a.id}`)).join('');
       vazio.hidden = achados.length > 0;
+      vazio.innerHTML = BovDados.animais().length
+        ? 'Nenhum animal encontrado.'
+        : 'Nenhum animal cadastrado ainda. <a href="cadastrar-animal.html">+ Cadastrar animal</a>';
     }
 
     el('busca').addEventListener('input', (e) => desenhar(e.target.value));
@@ -133,7 +137,7 @@ const PAGINAS = {
 
   // Registro animal: dados, vacinas e atalhos para os históricos
   animal() {
-    const a = BovDados.animal(parametro('id')) || BovDados.animais()[0];
+    const a = BovDados.animais()[0];
     document.title = `${a.nome} - Bovtrack`;
 
     el('card-animal').innerHTML = cardAnimal(a, 'estado');
@@ -141,11 +145,11 @@ const PAGINAS = {
     el('link-voc').href = `historico.html?tipo=vocalizacao&id=${a.id}`;
 
     const dados = [
-      ['Idade', idade(a.nascimento)],
-      ['Gênero', a.sexo],
-      ['Altura', numero(a.altura, 2) + 'm'],
-      ['Peso', `${a.peso} Arrobas`],
-      ['Categoria', a.categoria]
+      ['Idade', a.nascimento ? idade(a.nascimento) : '--'],
+      ['Gênero', a.sexo || '--'],
+      ['Altura', a.altura ? numero(a.altura, 2) + 'm' : '--'],
+      ['Peso', a.peso ? `${numero(a.peso, a.peso % 1 ? 1 : 0)} Arrobas` : '--'],
+      ['Categoria', a.categoria || '--']
     ];
     el('dados-animal').innerHTML = dados.map(([rotulo, valor]) =>
       `<div class="ficha__linha"><dt>${rotulo}:</dt><dd>${escapar(valor)}</dd></div>`).join('');
@@ -163,9 +167,13 @@ const PAGINAS = {
         </li>`).join('');
     }
 
-    listaVacinas.addEventListener('change', () => {
+    listaVacinas.addEventListener('change', async () => {
       const ids = [...listaVacinas.querySelectorAll('input:checked')].map(i => Number(i.value));
-      BovDados.salvarVacinasDoAnimal(a.id, ids);
+      try {
+        await BovDados.salvarVacinasDoAnimal(a.id, ids);
+      } catch (err) {
+        alert('Não foi possível salvar as vacinas: ' + err.message);
+      }
     });
 
     const form = el('form-vacina');
@@ -173,12 +181,16 @@ const PAGINAS = {
       form.hidden = false;
       form.nome.focus();
     });
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const nome = form.nome.value.trim();
       if (!nome) return;
-      const nova = BovDados.adicionarVacina(nome);
-      BovDados.salvarVacinasDoAnimal(a.id, BovDados.vacinasDoAnimal(a.id).concat(nova.id));
+      try {
+        const nova = await BovDados.adicionarVacina(nome);
+        await BovDados.salvarVacinasDoAnimal(a.id, BovDados.vacinasDoAnimal(a.id).concat(nova.id));
+      } catch (err) {
+        return alert('Não foi possível adicionar a vacina: ' + err.message);
+      }
       form.reset();
       form.hidden = true;
       desenharVacinas();
@@ -194,8 +206,10 @@ const PAGINAS = {
   // Dados de temperatura / vocalização: um card por animal com Agora e Média
   dados() {
     const tipo = document.body.dataset.tipo;
-    el('lista-animais').innerHTML = BovDados.animais()
-      .map(a => cardAnimal(a, tipo, `historico.html?tipo=${tipo}&id=${a.id}`)).join('');
+    const animais = BovDados.animais();
+    el('lista-animais').innerHTML = animais.length
+      ? animais.map(a => cardAnimal(a, tipo, `historico.html?tipo=${tipo}&id=${a.id}`)).join('')
+      : '<p class="rec-vazio">Nenhum animal cadastrado ainda. <a href="cadastrar-animal.html">+ Cadastrar animal</a></p>';
   },
 
   // Histórico: Hoje e Ontem, de um animal ou a média de todos
@@ -225,7 +239,7 @@ const PAGINAS = {
       return `
         <section class="historico__painel">
           <h2>${nomeDia} <small>${escapar(subtitulo)}</small></h2>
-          <ul>${linhas}</ul>
+          <ul>${linhas || '<li class="historico__vazio">Sem leituras neste dia.</li>'}</ul>
         </section>`;
     }
 
@@ -273,10 +287,40 @@ const PAGINAS = {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+// O que cada página precisa buscar no servidor antes de se montar
+const CARREGAR = {
+  inicio: () => ({ animais: true }),
+  registros: () => ({ animais: true }),
+  dados: () => ({ animais: true }),
+  animal: () => ({ animal: parametro('id') }),
+  historico: () => (parametro('id') ? { animal: parametro('id'), leituras: parametro('id') } : { leituras: null })
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
   document.querySelectorAll('[data-icone]').forEach(span => {
     span.innerHTML = ICONES[span.dataset.icone] || '';
   });
-  const pagina = PAGINAS[document.body.dataset.pagina];
-  if (pagina) pagina();
+
+  const nome = document.body.dataset.pagina;
+  const pagina = PAGINAS[nome];
+  if (!pagina) return;
+
+  // As páginas de Recursos são só para quem está logado
+  exigirLogin();
+  if (!estaLogado()) return;
+
+  if (CARREGAR[nome]) {
+    try {
+      await BovDados.carregar(CARREGAR[nome]());
+    } catch (err) {
+      const main = document.querySelector('main.rec');
+      const aviso = document.createElement('p');
+      aviso.className = 'rec-vazio rec-erro';
+      aviso.setAttribute('role', 'alert');
+      aviso.textContent = err.message;
+      main.appendChild(aviso);
+      return;
+    }
+  }
+  pagina();
 });
