@@ -23,6 +23,27 @@ async function enviarParaServidor(rota, dados) {
   return corpo;
 }
 
+// Busca dados do servidor (GET). Se a pessoa não estiver logada,
+// manda para a tela de login.
+async function buscarDoServidor(rota, paginaLogin = 'login.html') {
+  let resposta;
+  try {
+    resposta = await fetch(rota, { credentials: 'same-origin' });
+  } catch (e) {
+    throw new Error('Não foi possível conectar ao servidor. Verifique sua internet.');
+  }
+  if (resposta.status === 401) {
+    sessionStorage.removeItem(CHAVE_SESSAO);
+    localStorage.removeItem(CHAVE_SESSAO);
+    window.location.replace(paginaLogin);
+    throw new Error('Faça login novamente.');
+  }
+  let corpo = {};
+  try { corpo = await resposta.json(); } catch (e) {}
+  if (!resposta.ok) throw new Error(corpo.erro || 'Erro no servidor. Tente de novo.');
+  return corpo;
+}
+
 // Guarda no navegador quem está logado (o header usa isso para mostrar "Sair").
 // "Salvar senha" marcado = continua conectado mesmo fechando o navegador.
 function salvarSessao(email, lembrar) {
