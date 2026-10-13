@@ -1,22 +1,70 @@
 <?php
 // Animais do dono logado.
-//   GET  -> lista os animais
-//   POST -> cadastra um animal:
+//   GET            -> lista os animais, com "Agora", "Média" e Regular/Irregular
+//   GET ?id=5      -> um animal, com as vacinas que ele tomou
+//   POST           -> cadastra um animal:
 //     { "numero": "40028922", "nome": "Bartolomeu", "raca_id": 1,
 //       "nascimento": "2026-02-01", "sexo": "macho", "altura": 1.76,
 //       "peso": 15, "categoria": "corte", "imagem": "boi-nelore.png" }
 require __DIR__ . '/base.php';
 $usuario = usuarioLogado();
 
+// Transforma uma linha do banco no formato que as páginas usam
+function formatarAnimal(array $b): array {
+    $temLeitura = $b['temp_agora'] !== null;
+    $resumo = $temLeitura ? [
+        'tempAgora' => (float)$b['temp_agora'],
+        'tempMedia' => $b['temp_media'] !== null ? round((float)$b['temp_media'], 1) : (float)$b['temp_agora'],
+        'sonsAgora' => (int)$b['sons_agora'],
+        'sonsMedia' => $b['sons_media'] !== null ? round((float)$b['sons_media'], 1) : (float)$b['sons_agora'],
+        'ventilador' => (bool)$b['ventilador'],
+    ] : null;
+    return [
+        'id' => (int)$b['id'],
+        'numero' => $b['numero'],
+        'nome' => $b['nome'],
+        'raca' => $b['raca'],
+        'imagem' => $b['imagem'],
+        'nascimento' => $b['data_nascimento'],
+        'sexo' => $b['sexo'] === 'femea' ? 'Fêmea' : ($b['sexo'] === 'macho' ? 'Macho' : null),
+        'altura' => $b['altura_m'] !== null ? (float)$b['altura_m'] : null,
+        'peso' => $b['peso_arrobas'] !== null ? (float)$b['peso_arrobas'] : null,
+        'categoria' => $b['categoria'] === 'leite' ? 'Leite' : ($b['categoria'] === 'corte' ? 'Corte' : null),
+        'resumo' => $resumo,
+        'estado' => [
+            'temperatura' => !$temLeitura ? 'Sem dados' : ((float)$b['temp_agora'] >= LIMITE_TEMP ? 'Irregular' : 'Regular'),
+            'vocalizacao' => !$temLeitura ? 'Sem dados' : ((int)$b['sons_agora'] >= LIMITE_SONS ? 'Irregular' : 'Regular'),
+        ],
+    ];
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $sql = banco()->prepare(
-        'SELECT b.id, b.numero, b.nome, r.nome AS raca, b.data_nascimento AS nascimento,
-                b.sexo, b.altura_m AS altura, b.peso_arrobas AS peso, b.categoria, b.imagem
-           FROM bovinos b JOIN racas r ON r.id = b.raca_id
-          WHERE b.usuario_id = ? ORDER BY b.id'
-    );
-    $sql->execute([$usuario]);
-    responder($sql->fetchAll());
+    [$inicio, $fim] = intervaloDoDia('hoje');
+    // "Agora" = última leitura do animal; "Média" = média de hoje
+    $consulta =
+        'SELECT b.*, r.nome AS raca,
+                u.temp_animal AS temp_agora, u.sons AS sons_agora, u.ventilador,
+                (SELECT AVG(l.temp_animal) FROM leituras l WHERE l.bovino_id = b.id AND l.criado_em >= ? AND l.criado_em < ?) AS temp_media,
+                (SELECT AVG(l.sons)        FROM leituras l WHERE l.bovino_id = b.id AND l.criado_em >= ? AND l.criado_em < ?) AS sons_media
+           FROM bovinos b
+           JOIN racas r ON r.id = b.raca_id
+           LEFT JOIN leituras u ON u.id = (SELECT l.id FROM leituras l WHERE l.bovino_id = b.id ORDER BY l.criado_em DESC, l.id DESC LIMIT 1)
+          WHERE b.usuario_id = ?';
+    $params = [$inicio, $fim, $inicio, $fim, $usuario];
+
+    if (isset($_GET['id'])) {
+        $sql = banco()->prepare($consulta . ' AND b.id = ?');
+        $sql->execute([...$params, (int)$_GET['id']]);
+        $animal = $sql->fetch();
+        if (!$animal) erro('Animal não encontrado.', 404);
+        $vacinas = banco()->prepare('SELECT vacina_id FROM bovino_vacinas WHERE bovino_id = ?');
+        $vacinas->execute([$animal['id']]);
+        responder(formatarAnimal($animal) + ['vacinas' => array_map('intval', $vacinas->fetchAll(PDO::FETCH_COLUMN))]);
+    }
+
+    $sql = banco()->prepare($consulta . ' ORDER BY b.id');
+    $sql->execute($params);
+    responder(array_map('formatarAnimal', $sql->fetchAll()));
 }
 
 exigirMetodo('POST');
