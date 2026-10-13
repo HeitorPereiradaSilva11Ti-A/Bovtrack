@@ -1,0 +1,465 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&display=swap');
+
+/* ---------- RESET GLOBAL & VARIÁVEIS ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-color: #ffffff;
+  --text-primary: #2b0f30;
+  --text-secondary: #5d5360;
+  --main-bg: #f9f8fa;
+  --title-color: #2b0f30;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 20px 40px 80px;
+  background-color: var(--bg-color);
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ---------- SUPORTE AO MODO ESCURO ---------- */
+body.darkmode {
+  --bg-color: #2B2A33;
+  --text-primary: #ffffff;
+  --text-secondary: #c2bdc7;
+  --main-bg: #1d1921;
+  --title-color: #ffffff;
+}
+
+/* ---------- HEADER ---------- */
+header {
+  max-width: 1253px;
+  margin: 0 auto;
+  height: 80px;
+  background: #23082b;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  position: relative;
+  z-index: 1000;
+  width: 100%;
+}
+
+.logo {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  text-decoration: none;
+  font-family: "Lexend Giga", sans-serif;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+nav a {
+  color: #e9e4ec;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+nav a.active {
+  color: #6f5b72;
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: #ffffff;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.theme-toggle, .login-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e9e4ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+  stroke: #2b0f30;
+}
+
+.login-text {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.login-icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.login-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: #ffffff;
+}
+
+/* ---------- CONTEÚDO PRINCIPAL (MAIN) ---------- */
+main {
+  max-width: 1253px;
+  margin: 50px auto 0;
+  padding: 40px;
+  background: var(--main-bg);
+  border-radius: 14px;
+  min-height: 500px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.page-title {
+  margin-top: 0;
+  font-size: 38px;
+  font-family: 'Lexend Giga', sans-serif;
+  font-weight: 400;
+  color: var(--title-color);
+  transition: color 0.3s ease;
+}
+
+.page-description {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+/* ---------- HAMBÚRGUER ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+}
+
+.hamburger span {
+  width: 100%;
+  height: 3px;
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+/* ---------- RESPONSIVO (MOBILE & TABLET) ---------- */
+@media (max-width: 1100px) {
+  main {
+    margin-top: 40px;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 0 0 40px 0;
+  }
+
+  header {
+    height: 60px;
+    padding: 0 20px;
+    position: relative;
+    border-radius: 0;
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 18px;
+    order: 1;
+  }
+
+  .right {
+    display: flex !important;
+    align-items: center;
+    order: 2;
+    margin-left: auto;
+    margin-right: 12px;
+  }
+
+  .login-text,
+  .login-icon {
+    display: none !important;
+  }
+
+  .hamburger {
+    display: flex !important;
+    order: 3;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 180px;
+    background: linear-gradient(180deg, #3d0c5a 0%, #a252ed 100%);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 0;
+    gap: 0;
+    box-shadow: -4px 8px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #ffffff;
+  }
+
+  main {
+    margin: 20px 15px 0;
+    padding: 20px;
+    min-height: 400px;
+  }
+
+  .page-title {
+    font-size: 26px;
+  }
+
+  .page-description {
+    font-size: 15px;
+  }
+}
+
+
+/* =====================================================================
+   PÁGINAS DOS POLOS (layout do Figma)
+   ===================================================================== */
+:root {
+  --polo-card: #D9D9D9;
+  --polo-foto: #FFFFFF;
+  --polo-nome: #6B2E7A;
+  --polo-preco: #2B2A33;
+}
+
+body.darkmode {
+  --polo-card: #4A2560;
+  --polo-foto: #120D16;
+  --polo-nome: #E9E4EC;
+  --polo-preco: #E9E4EC;
+}
+
+main.polo {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 40px;
+  background: none;
+  box-shadow: none;
+  padding: 20px 20px 40px;
+  min-height: 0;
+}
+
+.polo-titulo {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin: 0 0 30px;
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--title-color);
+}
+
+.polo-voltar {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-top: 0.35em;
+  color: var(--title-color);
+}
+
+.polo-voltar svg {
+  width: 30px;
+  height: 30px;
+}
+
+.polo-voltar:focus-visible,
+.polo-card:focus-visible {
+  outline: 3px solid #8A3AA0;
+  outline-offset: 3px;
+}
+
+.polo-subtitulo {
+  margin: 0 0 50px 58px;
+  font-family: 'Lexend Giga', sans-serif;
+  font-size: clamp(0.85rem, 1.3vw, 1.05rem);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+}
+
+.polo-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 200px));
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.polo-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 316px;
+  padding: 14px 14px 22px;
+  border-radius: 18px;
+  background: var(--polo-card);
+  text-align: center;
+  font-family: 'Lexend Giga', sans-serif;
+  letter-spacing: 0.06em;
+}
+
+.polo-card__foto {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 162 / 158;
+  margin-bottom: 18px;
+  border-radius: 14px;
+  background: var(--polo-foto);
+}
+
+.polo-card__foto img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+}
+
+.polo-card__nome {
+  flex: 1;
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--polo-nome);
+}
+
+.polo-card__preco {
+  margin: 14px 0 0;
+  font-size: 0.82rem;
+  color: var(--polo-preco);
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+.polo-imagem {
+  justify-self: center;
+  width: min(100%, 420px);
+  height: auto;
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 768px) {
+  main.polo {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 0 auto;
+    padding: 30px 16px 40px;
+    text-align: center;
+  }
+
+  .polo-titulo {
+    position: relative;
+    justify-content: center;
+    margin: 0 0 18px;
+    padding: 0 30px;
+    font-size: clamp(1.9rem, 8.2vw, 3rem);
+  }
+
+  .polo-voltar {
+    position: absolute;
+    left: -10px;
+    top: 0;
+    margin-top: 0.1em;
+  }
+
+  .polo-subtitulo {
+    margin: 0 auto 26px;
+    max-width: 300px;
+    line-height: 1.5;
+  }
+
+  /* No celular a foto do polo vem antes dos cards */
+  .polo-info { display: contents; }
+  .polo-titulo { order: 1; }
+  .polo-subtitulo { order: 2; }
+  .polo-imagem { order: 3; width: 130px; margin-bottom: 30px; }
+  .polo-cards { order: 4; }
+
+  .polo-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .polo-card {
+    display: grid;
+    grid-template-columns: 112px 1fr;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    column-gap: 16px;
+    min-height: 0;
+    padding: 14px;
+  }
+
+  .polo-card__foto {
+    grid-row: span 2;
+    width: 112px;
+    margin: 0;
+  }
+
+  .polo-card__nome {
+    align-self: end;
+  }
+
+  .polo-card__preco {
+    align-self: start;
+  }
+}

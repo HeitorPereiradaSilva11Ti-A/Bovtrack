@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 btnSair.click()
             })
         } else {
-            linkMenu.href = 'login.html'
+            linkMenu.href = linkLogin.getAttribute('href')
             linkMenu.textContent = 'LOGIN'
         }
         navMenu.appendChild(linkMenu)
@@ -122,6 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
     btnSair.addEventListener('click', () => {
         localStorage.removeItem(CHAVE_SESSAO)
         sessionStorage.removeItem(CHAVE_SESSAO)
-        window.location.href = 'index.html'
+        // Volta para o início (o logo aponta para o index certo, mesmo em subpastas)
+        const logo = document.querySelector('.logo')
+        window.location.href = logo ? logo.getAttribute('href') : 'index.html'
     })
 })
