@@ -17,10 +17,31 @@ async function enviarParaServidor(rota, dados) {
     throw new Error('Não foi possível conectar ao servidor. Verifique sua internet.');
   }
 
-  let corpo = {};
-  try { corpo = await resposta.json(); } catch (e) {}
-  if (!resposta.ok) throw new Error(corpo.erro || 'Erro no servidor. Tente de novo.');
+  return lerResposta(resposta);
+}
+
+// Lê a resposta do servidor. Se não vier JSON (por exemplo, numa
+// hospedagem sem PHP, como a Vercel), mostra um erro claro.
+async function lerResposta(resposta) {
+  let corpo;
+  try {
+    corpo = await resposta.json();
+  } catch (e) {
+    throw new Error('Não foi possível conectar ao servidor.');
+  }
+  if (!resposta.ok) throw new Error((corpo && corpo.erro) || 'Erro no servidor. Tente de novo.');
   return corpo;
+}
+
+// Tem login salvo neste navegador?
+function estaLogado() {
+  return !!(localStorage.getItem(CHAVE_SESSAO) || sessionStorage.getItem(CHAVE_SESSAO));
+}
+
+// Para páginas que só quem está logado pode ver: sem login salvo,
+// vai direto para a tela de login (sem nem precisar do servidor).
+function exigirLogin(paginaLogin = 'login.html') {
+  if (!estaLogado()) window.location.replace(paginaLogin);
 }
 
 // Busca dados do servidor (GET). Se a pessoa não estiver logada,
@@ -38,10 +59,7 @@ async function buscarDoServidor(rota, paginaLogin = 'login.html') {
     window.location.replace(paginaLogin);
     throw new Error('Faça login novamente.');
   }
-  let corpo = {};
-  try { corpo = await resposta.json(); } catch (e) {}
-  if (!resposta.ok) throw new Error(corpo.erro || 'Erro no servidor. Tente de novo.');
-  return corpo;
+  return lerResposta(resposta);
 }
 
 // Guarda no navegador quem está logado (o header usa isso para mostrar "Sair").

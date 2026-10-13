@@ -1,5 +1,7 @@
 // Tela "Cadastrar animal": carrega as raças e envia o formulário ao servidor.
 
+exigirLogin();
+
 document.addEventListener('DOMContentLoaded', async () => {
   const form = document.getElementById('form-animal');
   const erro = document.getElementById('erro');
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   try {
     const racas = await buscarDoServidor('api/racas.php');
+    if (!Array.isArray(racas)) throw new Error('Não foi possível conectar ao servidor.');
     selectRaca.innerHTML = '<option value="">Escolha a raça</option>' +
       racas.map(r => `<option value="${r.id}">${r.nome}</option>`).join('');
   } catch (e) {
