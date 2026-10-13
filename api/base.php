@@ -50,3 +50,48 @@ function banco(): PDO {
     }
     return $pdo;
 }
+
+// Aceita só o método esperado (ex.: POST)
+function exigirMetodo(string $metodo): void {
+    if ($_SERVER['REQUEST_METHOD'] !== $metodo) {
+        erro('Método não permitido.', 405);
+    }
+}
+
+function emailValido(string $email): bool {
+    return strlen($email) <= 255 && filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+
+// ---------- Sessão (login) ----------
+// O cookie fica preso à pasta do site, para não misturar com os sites
+// dos outros grupos que estão no mesmo servidor.
+function iniciarSessao(bool $lembrar = false): void {
+    if (session_status() === PHP_SESSION_ACTIVE) return;
+    $pastaSite = rtrim(dirname(dirname($_SERVER['SCRIPT_NAME'])), '/') . '/';
+    session_name('BOVTRACK');
+    session_set_cookie_params([
+        'lifetime' => $lembrar ? 60 * 60 * 24 * 30 : 0,  // "Salvar senha" = 30 dias
+        'path'     => $pastaSite,
+        'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+    if ($lembrar) ini_set('session.gc_maxlifetime', (string)(60 * 60 * 24 * 30));
+    session_start();
+}
+
+// Para as rotas que precisam de login: devolve o id do usuário
+function usuarioLogado(): int {
+    iniciarSessao();
+    if (empty($_SESSION['usuario_id'])) {
+        erro('Faça login novamente.', 401);
+    }
+    return (int)$_SESSION['usuario_id'];
+}
+
+function entrar(int $id, string $email, bool $lembrar): void {
+    iniciarSessao($lembrar);
+    session_regenerate_id(true);
+    $_SESSION['usuario_id'] = $id;
+    $_SESSION['email'] = $email;
+}

@@ -119,7 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
         btnSair.style.display = ''         // mostra o ícone de sair
     }
 
-    btnSair.addEventListener('click', () => {
+    btnSair.addEventListener('click', async () => {
+        // Encerra o login no servidor (a pasta api/ fica ao lado do login.html)
+        const rotaSair = linkLogin.getAttribute('href').replace('login.html', 'api/sair.php')
+        try { await fetch(rotaSair, { method: 'POST', credentials: 'same-origin' }) } catch (e) {}
+
         localStorage.removeItem(CHAVE_SESSAO)
         sessionStorage.removeItem(CHAVE_SESSAO)
         // Volta para o início (o logo aponta para o index certo, mesmo em subpastas)
