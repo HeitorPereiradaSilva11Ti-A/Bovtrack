@@ -74,24 +74,8 @@
 
   </main>
   <script src="login-tema.js"></script>
+<script src="api-cliente.js"></script>
 <script>
-  const CHAVE_USUARIOS = 'bovtrack_usuarios';
-  const CHAVE_SESSAO = 'bovtrack_sessao';
-
-  async function gerarHash(email, senha) {
-    const texto = email + ':' + senha;
-    if (window.crypto && crypto.subtle) {
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-    return 'plain:' + texto;
-  }
-
-  function lerUsuarios() {
-    try { return JSON.parse(localStorage.getItem(CHAVE_USUARIOS)) || []; }
-    catch (e) { return []; }
-  }
-
   const form = document.getElementById('form-cadastro');
   const erro = document.getElementById('erro');
   const botao = form.querySelector('.login__btn');
@@ -114,27 +98,14 @@
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return mostrarErro('Digite um e-mail válido.');
     if (senha.length < 6) return mostrarErro('A senha precisa ter pelo menos 6 caracteres.');
 
-    const usuarios = lerUsuarios();
-    if (usuarios.some(u => u.email === email)) return mostrarErro('Já existe uma conta com esse e-mail.');
-
-    usuarios.push({
-      email,
-      senha: await gerarHash(email, senha),
-      criadoEm: new Date().toISOString()
-    });
-
     try {
-      localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(usuarios));
+      await enviarParaServidor('api/cadastro.php', { email, senha, lembrar: form.lembrar.checked });
     } catch (err) {
-      return mostrarErro('Não foi possível salvar o cadastro neste navegador.');
+      return mostrarErro(err.message);
     }
 
     // Já deixa a pessoa logada
-    const sessao = JSON.stringify({ email, entrouEm: Date.now() });
-    sessionStorage.removeItem(CHAVE_SESSAO);
-    localStorage.removeItem(CHAVE_SESSAO);
-    (form.lembrar.checked ? localStorage : sessionStorage).setItem(CHAVE_SESSAO, sessao);
-
+    salvarSessao(email, form.lembrar.checked);
     erro.textContent = 'Cadastro realizado! Entrando...';
     erro.style.color = '#2e7d32';
     erro.hidden = false;
