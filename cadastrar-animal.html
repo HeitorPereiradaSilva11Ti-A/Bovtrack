@@ -55,8 +55,8 @@
 
 <main class="rec">
   <div class="rec-topo">
-    <a class="rec-voltar" href="registros.html" aria-label="Voltar"><span data-icone="voltar"></span></a>
-    <h1 class="rec-titulo">Cadastrar animal</h1>
+    <a class="rec-voltar" id="voltar" href="registros.html" aria-label="Voltar"><span data-icone="voltar"></span></a>
+    <h1 class="rec-titulo" id="titulo">Cadastrar animal</h1>
   </div>
 
   <form class="form-animal" id="form-animal" novalidate>
@@ -124,7 +124,10 @@
     </fieldset>
 
     <p class="form-animal__erro" id="erro" role="alert" hidden></p>
-    <button type="submit" class="form-animal__btn">Cadastrar animal</button>
+    <div class="form-animal__acoes">
+      <button type="submit" class="form-animal__btn">Cadastrar animal</button>
+      <button type="button" class="form-animal__excluir" id="btn-excluir" hidden>Excluir animal</button>
+    </div>
   </form>
 </main>
 </body>

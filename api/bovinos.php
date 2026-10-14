@@ -6,6 +6,8 @@
 //     { "numero": "40028922", "nome": "Bartolomeu", "raca_id": 1,
 //       "nascimento": "2026-02-01", "sexo": "macho", "altura": 1.76,
 //       "peso": 15, "categoria": "corte", "imagem": "boi-nelore.png" }
+//   POST com "id"  -> salva as alterações desse animal (mesmos campos)
+//   POST { "id": 5, "excluir": true } -> exclui o animal e as leituras dele
 require __DIR__ . '/base.php';
 $usuario = usuarioLogado();
 
@@ -24,6 +26,7 @@ function formatarAnimal(array $b): array {
         'numero' => $b['numero'],
         'nome' => $b['nome'],
         'raca' => $b['raca'],
+        'raca_id' => (int)$b['raca_id'],
         'imagem' => $b['imagem'],
         'nascimento' => $b['data_nascimento'],
         'sexo' => $b['sexo'] === 'femea' ? 'Fêmea' : ($b['sexo'] === 'macho' ? 'Macho' : null),
@@ -70,6 +73,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 exigirMetodo('POST');
 $d = corpo();
 
+// Editar ou excluir: o animal precisa ser do dono logado
+$id = (int)($d['id'] ?? 0);
+if ($id) animalDoUsuario($usuario, $id);
+
+if ($id && !empty($d['excluir'])) {
+    banco()->prepare('DELETE FROM bovinos WHERE id = ? AND usuario_id = ?')->execute([$id, $usuario]);
+    responder(['ok' => true]);
+}
+
 $numero = trim((string)($d['numero'] ?? ''));
 $nome = trim((string)($d['nome'] ?? ''));
 $racaId = (int)($d['raca_id'] ?? 0);
@@ -94,12 +106,20 @@ $raca = banco()->prepare('SELECT id FROM racas WHERE id = ?');
 $raca->execute([$racaId]);
 if (!$raca->fetch()) erro('Escolha a raça.');
 
+$campos = [$numero, $nome, $racaId, $nascimento ?: null, $sexo, $altura, $peso, $categoria, $imagem];
 try {
-    $sql = banco()->prepare(
-        'INSERT INTO bovinos (usuario_id, numero, nome, raca_id, data_nascimento, sexo, altura_m, peso_arrobas, categoria, imagem)
+    if ($id) {
+        banco()->prepare(
+            'UPDATE bovinos SET numero = ?, nome = ?, raca_id = ?, data_nascimento = ?, sexo = ?,
+                    altura_m = ?, peso_arrobas = ?, categoria = ?, imagem = ?
+              WHERE id = ? AND usuario_id = ?'
+        )->execute([...$campos, $id, $usuario]);
+        responder(['id' => $id]);
+    }
+    banco()->prepare(
+        'INSERT INTO bovinos (numero, nome, raca_id, data_nascimento, sexo, altura_m, peso_arrobas, categoria, imagem, usuario_id)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-    );
-    $sql->execute([$usuario, $numero, $nome, $racaId, $nascimento ?: null, $sexo, $altura, $peso, $categoria, $imagem]);
+    )->execute([...$campos, $usuario]);
 } catch (PDOException $e) {
     if ($e->errorInfo[1] == 1062) erro('Você já tem um animal com esse número.', 409);
     erro('Erro no servidor. Tente de novo.', 500);

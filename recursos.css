@@ -1014,6 +1014,34 @@ body.darkmode .rec-busca input::placeholder {
   background: var(--rec-lilas);
 }
 
+.gastos__aviso {
+  margin: -8px 0 16px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.sugestao {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -16px 0 32px;
+  padding: 14px 18px;
+  border: 1px solid var(--rec-alerta);
+  border-radius: 12px;
+  color: var(--rec-alerta);
+  font-size: 1.05rem;
+}
+
+.sugestao[hidden] {
+  display: none;
+}
+
+.sugestao svg {
+  flex: none;
+  width: 28px;
+  height: 28px;
+}
+
 .gastos {
   margin: 0;
   padding: 8px 0;
@@ -1336,6 +1364,29 @@ body.darkmode .gastos__linha--0 .gastos__barra { background: #000000; }
 .form-animal__btn:disabled {
   opacity: 0.6;
   cursor: wait;
+}
+
+.form-animal__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+}
+
+.form-animal__excluir {
+  margin-top: 26px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--rec-alerta);
+  font: inherit;
+  font-size: 1.05rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form-animal__excluir[hidden] {
+  display: none;
 }
 
 @media (max-width: 768px) {
