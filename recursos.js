@@ -28,6 +28,11 @@ function numero(valor, casas = 1) {
   return valor.toFixed(casas).replace('.', ',');
 }
 
+// "1 som", "2 sons", "1,5 sons"
+function sons(valor, casas = 0) {
+  return `${numero(valor, casas)} ${Number(valor) === 1 ? 'som' : 'sons'}`;
+}
+
 function parametro(nome) {
   return new URLSearchParams(location.search).get(nome);
 }
@@ -143,6 +148,7 @@ const PAGINAS = {
     el('card-animal').innerHTML = cardAnimal(a, 'estado');
     el('link-temp').href = `historico.html?tipo=temperatura&id=${a.id}`;
     el('link-voc').href = `historico.html?tipo=vocalizacao&id=${a.id}`;
+    el('link-editar').href = `cadastrar-animal.html?id=${a.id}`;
 
     const dados = [
       ['Idade', a.nascimento ? idade(a.nascimento) : '--'],
@@ -228,7 +234,7 @@ const PAGINAS = {
     function painel(dia, nomeDia) {
       const linhas = BovDados.leituras(a ? a.id : null, dia).map(l => {
         const irregular = ehTemp ? l.temp >= BovDados.LIMITE_TEMP : l.sons >= BovDados.LIMITE_SONS;
-        const valor = ehTemp ? numero(l.temp) + '°' : `${numero(l.sons, a ? 0 : 1)} sons`;
+        const valor = ehTemp ? numero(l.temp) + '°' : sons(l.sons, a ? 0 : 1);
         return `
           <li class="${irregular ? 'is-irregular' : ''}">
             <span class="historico__hora">${irregular ? '<span class="historico__alerta" title="Irregular"></span>' : ''}${l.hora}</span>
@@ -275,6 +281,20 @@ const PAGINAS = {
     }));
     atualizar();
 
+    // Sugestão: algum animal com 39 °C ou mais e o sistema desligado
+    function sugerir() {
+      const quentes = BovDados.animais().filter(a => a.estado.temperatura === 'Irregular');
+      const aviso = el('sugestao');
+      aviso.hidden = !quentes.length || estado.ligado;
+      if (aviso.hidden) return;
+      const nomes = quentes.map(a => `${escapar(a.nome)} (${numero(a.resumo.tempAgora)}°)`).join(', ');
+      aviso.innerHTML = `${ICONES.temperatura}<span><strong>Temperatura irregular:</strong> ${nomes}. ` +
+        `Sugerimos ligar o sistema de resfriamento.</span>`;
+    }
+    botao.addEventListener('click', sugerir);
+    sugerir();
+    PAGINAS.resfriamento.atualizar = sugerir;
+
     const gastos = BovDados.gastos();
     const maiorReais = Math.max(...gastos.map(g => g.reais));
     const maiorKwh = Math.max(...gastos.map(g => g.kwh));
@@ -293,6 +313,7 @@ const CARREGAR = {
   registros: () => ({ animais: true }),
   dados: () => ({ animais: true }),
   animal: () => ({ animal: parametro('id') }),
+  resfriamento: () => ({ animais: true }),
   historico: () => (parametro('id') ? { animal: parametro('id'), leituras: parametro('id') } : { leituras: null })
 };
 
@@ -323,4 +344,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
   pagina();
+
+  // Páginas com leituras se atualizam sozinhas a cada 1 minuto
+  // (a central manda uma leitura nova por minuto)
+  const redesenhar = { inicio: pagina, dados: pagina, historico: pagina, resfriamento: () => pagina.atualizar() }[nome];
+  if (redesenhar) {
+    setInterval(async () => {
+      if (document.hidden) return;
+      try {
+        await BovDados.carregar(CARREGAR[nome]());
+        redesenhar();
+      } catch (err) { /* tenta de novo no próximo minuto */ }
+    }, 60000);
+  }
 });
