@@ -1,8 +1,42 @@
 <?php
-// Leituras de temperatura e som (páginas de histórico).
+// Leituras de temperatura e som.
+//   POST (central)           -> salva uma leitura. Precisa da chave da central.
+//     { "bovino_id": 1, "temp_animal": 38.6, "temp_ambiente": 31.2,
+//       "sons": 2, "ventilador": false }
 //   GET ?bovino=5&dia=hoje   -> leituras do animal (da mais recente para a mais antiga)
 //   GET ?dia=ontem           -> média de todos os animais do dono, em blocos de 30 min
 require __DIR__ . '/base.php';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $d = corpo();
+
+    // A chave pode vir no cabeçalho X-Chave ou no próprio JSON ("chave")
+    $chave = (string)($_SERVER['HTTP_X_CHAVE'] ?? ($d['chave'] ?? ''));
+    $esperada = (string)($config['chave_central'] ?? '');
+    if ($esperada === '' || $esperada === 'TROQUE_ESTA_CHAVE' || !hash_equals($esperada, $chave)) {
+        erro('Chave da central inválida.', 401);
+    }
+
+    $numero = fn($v, $min, $max) => is_numeric($v) && $v >= $min && $v <= $max ? (float)$v : null;
+    $bovino = (int)($d['bovino_id'] ?? 0);
+    $tempAnimal = $numero($d['temp_animal'] ?? null, -40, 99);
+    $tempAmbiente = $numero($d['temp_ambiente'] ?? null, -40, 99);
+    $sons = $numero($d['sons'] ?? 0, 0, 65535);
+    if ($bovino <= 0 || $tempAnimal === null || $tempAmbiente === null || $sons === null) {
+        erro('Leitura inválida.');
+    }
+
+    try {
+        banco()->prepare(
+            'INSERT INTO leituras (bovino_id, temp_animal, temp_ambiente, sons, ventilador) VALUES (?, ?, ?, ?, ?)'
+        )->execute([$bovino, round($tempAnimal, 1), round($tempAmbiente, 1), (int)round($sons), !empty($d['ventilador']) ? 1 : 0]);
+    } catch (PDOException $e) {
+        if ($e->errorInfo[1] == 1452) erro("Não existe animal com id $bovino.", 404);
+        erro('Erro no servidor. Tente de novo.', 500);
+    }
+    responder(['ok' => true], 201);
+}
+
 $usuario = usuarioLogado();
 
 $dia = ($_GET['dia'] ?? '') === 'ontem' ? 'ontem' : 'hoje';
