@@ -14,6 +14,7 @@ const BovDados = (() => {
   let animais = [];
   let vacinas = [];
   let vacinasDoAnimal = {};
+  let central = { dono: false, bovino_id: null };
   const leituras = {};   // leituras["5-hoje"] = [...]
 
   function prepararAnimal(a) {
@@ -47,6 +48,7 @@ const BovDados = (() => {
         animais = [a];
         vacinasDoAnimal[a.id] = a.vacinas || [];
         vacinas = await buscarDoServidor('api/vacinas.php');
+        central = await buscarDoServidor('api/central.php');
       }
       if (o.leituras !== undefined) {
         const filtro = o.leituras ? '&bovino=' + encodeURIComponent(o.leituras) : '';
@@ -84,6 +86,12 @@ const BovDados = (() => {
     async salvarVacinasDoAnimal(id, ids) {
       vacinasDoAnimal[id] = ids;
       await enviarParaServidor('api/vacinas.php', { bovino_id: id, ids });
+    },
+
+    // Central: qual animal ela está monitorando e se esta conta pode trocar
+    central: () => central,
+    async monitorar(id) {
+      central = await enviarParaServidor('api/central.php', { bovino_id: id });
     },
 
     // Sistema de resfriamento: por enquanto só no navegador (o controle pelo

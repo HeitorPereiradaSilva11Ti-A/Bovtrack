@@ -96,6 +96,23 @@ function entrar(int $id, string $email, bool $lembrar): void {
     $_SESSION['email'] = $email;
 }
 
+// A conta logada é a dona da central? (e-mail igual ao 'dono_central' do config.php)
+function ehDonoCentral(): bool {
+    global $config;
+    $dono = strtolower(trim((string)($config['dono_central'] ?? '')));
+    return $dono !== '' && $dono === strtolower((string)($_SESSION['email'] ?? ''));
+}
+
+// Animal que a central está monitorando (null = nenhum)
+function animalDaCentral(): ?int {
+    try {
+        $id = banco()->query('SELECT bovino_id FROM central WHERE id = 1')->fetchColumn();
+    } catch (PDOException $e) {
+        erro('Falta a tabela "central" no banco: rode o backend/central.sql no phpMyAdmin.', 500);
+    }
+    return $id ? (int)$id : null;
+}
+
 // ---------- Regras (as mesmas da central) ----------
 const LIMITE_TEMP = 39;   // animal com 39 °C ou mais = temperatura irregular
 const LIMITE_SONS = 3;    // 3 ou mais sons na janela = vocalização irregular

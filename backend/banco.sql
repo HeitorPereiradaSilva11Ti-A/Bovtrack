@@ -95,6 +95,19 @@ CREATE TABLE IF NOT EXISTS leituras (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------
+-- central: qual animal a central (ESP) está monitorando agora
+-- (uma linha só; escolhido pelo site no botão "Monitorar com a central")
+-- ---------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS central (
+  id         TINYINT UNSIGNED PRIMARY KEY,
+  bovino_id  INT UNSIGNED NULL,
+  CONSTRAINT fk_central_bovino FOREIGN KEY (bovino_id)
+    REFERENCES bovinos (id) ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT IGNORE INTO central (id, bovino_id) VALUES (1, NULL);
+
+-- ---------------------------------------------------------------------
 -- Listas fixas
 -- ---------------------------------------------------------------------
 INSERT IGNORE INTO racas (id, nome, limite_ambiente) VALUES

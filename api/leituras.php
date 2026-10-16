@@ -1,11 +1,15 @@
 <?php
 // Leituras de temperatura e som.
 //   POST (central)           -> salva uma leitura. Precisa da chave da central.
-//     { "bovino_id": 1, "temp_animal": 38.6, "temp_ambiente": 31.2,
+//     { "bovino_id": 0, "temp_animal": 38.6, "temp_ambiente": 31.2,
 //       "sons": 2, "ventilador": false }
-//   GET ?bovino=5&dia=hoje   -> leituras do animal (da mais recente para a mais antiga)
+//     bovino_id 0 = grava no animal escolhido no site ("Monitorar com a central")
+//   GET ?bovino=5&dia=hoje   -> leituras do animal em blocos de 30 min (mais recente primeiro)
 //   GET ?dia=ontem           -> média de todos os animais do dono, em blocos de 30 min
+// Leituras com mais de DIAS_GUARDADOS dias são apagadas sozinhas.
 require __DIR__ . '/base.php';
+
+const DIAS_GUARDADOS = 7;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $d = corpo();
@@ -19,6 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $numero = fn($v, $min, $max) => is_numeric($v) && $v >= $min && $v <= $max ? (float)$v : null;
     $bovino = (int)($d['bovino_id'] ?? 0);
+    if ($bovino === 0) {
+        $bovino = (int)animalDaCentral();
+        if (!$bovino) erro('Escolha no site qual animal a central está monitorando.', 409);
+    }
     $tempAnimal = $numero($d['temp_animal'] ?? null, -40, 99);
     $tempAmbiente = $numero($d['temp_ambiente'] ?? null, -40, 99);
     $sons = $numero($d['sons'] ?? 0, 0, 65535);
@@ -34,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($e->errorInfo[1] == 1452) erro("Não existe animal com id $bovino.", 404);
         erro('Erro no servidor. Tente de novo.', 500);
     }
-    responder(['ok' => true], 201);
+    banco()->exec('DELETE FROM leituras WHERE criado_em < NOW() - INTERVAL ' . DIAS_GUARDADOS . ' DAY');
+    responder(['ok' => true, 'bovino_id' => $bovino], 201);
 }
 
 $usuario = usuarioLogado();
@@ -42,19 +51,22 @@ $usuario = usuarioLogado();
 $dia = ($_GET['dia'] ?? '') === 'ontem' ? 'ontem' : 'hoje';
 [$inicio, $fim] = intervaloDoDia($dia);
 
+// Blocos de 30 min: média do bloco e o maior valor (para marcar o alerta)
+$colunas = "CONCAT(DATE_FORMAT(l.criado_em, '%H'), ':', IF(MINUTE(l.criado_em) < 30, '00', '30')) AS hora,
+            AVG(l.temp_animal) AS temp, AVG(l.sons) AS sons,
+            MAX(l.temp_animal) AS temp_max, MAX(l.sons) AS sons_max";
+
 if (isset($_GET['bovino'])) {
     $bovino = animalDoUsuario($usuario, $_GET['bovino']);
     $sql = banco()->prepare(
-        "SELECT DATE_FORMAT(criado_em, '%H:%i') AS hora, temp_animal AS temp, sons, ventilador
-           FROM leituras WHERE bovino_id = ? AND criado_em >= ? AND criado_em < ?
-          ORDER BY criado_em DESC, id DESC LIMIT 200"
+        "SELECT $colunas FROM leituras l
+          WHERE l.bovino_id = ? AND l.criado_em >= ? AND l.criado_em < ?
+          GROUP BY hora ORDER BY hora DESC"
     );
     $sql->execute([$bovino, $inicio, $fim]);
 } else {
     $sql = banco()->prepare(
-        "SELECT CONCAT(DATE_FORMAT(l.criado_em, '%H'), ':', IF(MINUTE(l.criado_em) < 30, '00', '30')) AS hora,
-                AVG(l.temp_animal) AS temp, AVG(l.sons) AS sons
-           FROM leituras l JOIN bovinos b ON b.id = l.bovino_id
+        "SELECT $colunas FROM leituras l JOIN bovinos b ON b.id = l.bovino_id
           WHERE b.usuario_id = ? AND l.criado_em >= ? AND l.criado_em < ?
           GROUP BY hora ORDER BY hora DESC"
     );
@@ -65,4 +77,6 @@ responder(array_map(fn($l) => [
     'hora' => $l['hora'],
     'temp' => round((float)$l['temp'], 1),
     'sons' => round((float)$l['sons'], 1),
+    'tempMax' => round((float)$l['temp_max'], 1),
+    'sonsMax' => (int)$l['sons_max'],
 ], $sql->fetchAll()));
