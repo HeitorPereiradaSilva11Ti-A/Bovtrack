@@ -16,4 +16,8 @@ return [
     // Senha que a central (ESP) manda junto com as leituras.
     // Invente uma e coloque a mesma no código da central.
     'chave_central' => 'TROQUE_ESTA_CHAVE',
+
+    // E-mail da conta do site que escolhe qual animal a central monitora.
+    // Só essa conta vê o botão "Monitorar com a central".
+    'dono_central' => 'email-da-conta@gmail.com',
 ];

@@ -150,6 +150,29 @@ const PAGINAS = {
     el('link-voc').href = `historico.html?tipo=vocalizacao&id=${a.id}`;
     el('link-editar').href = `cadastrar-animal.html?id=${a.id}`;
 
+    // Central: etiqueta "Monitorado pela central" e botão Monitorar/Parar
+    // (o botão só aparece para a conta dona da central)
+    const btnMonitorar = el('btn-monitorar');
+    function desenharMonitor() {
+      const c = BovDados.central();
+      const monitorado = c.bovino_id === a.id;
+      el('monitor').hidden = !c.dono && !monitorado;
+      el('monitor-etiqueta').hidden = !monitorado;
+      btnMonitorar.hidden = !c.dono;
+      btnMonitorar.textContent = monitorado ? 'Parar de monitorar' : 'Monitorar com a central';
+    }
+    btnMonitorar.addEventListener('click', async () => {
+      btnMonitorar.disabled = true;
+      try {
+        await BovDados.monitorar(BovDados.central().bovino_id === a.id ? null : a.id);
+      } catch (err) {
+        alert('Não foi possível trocar o animal da central: ' + err.message);
+      }
+      btnMonitorar.disabled = false;
+      desenharMonitor();
+    });
+    desenharMonitor();
+
     const dados = [
       ['Idade', a.nascimento ? idade(a.nascimento) : '--'],
       ['Gênero', a.sexo || '--'],
@@ -229,12 +252,13 @@ const PAGINAS = {
     document.title = `${titulo} - Bovtrack`;
     el('voltar').href = a ? `animal.html?id=${a.id}` : (ehTemp ? 'temperatura.html' : 'vocalizacao.html');
 
-    const subtitulo = a ? `${a.nome} · N° ${a.numero}` : 'Média de todos os bois';
+    const subtitulo = (a ? `${a.nome} · N° ${a.numero}` : 'Média de todos os bois') + ' · média a cada 30 min';
 
     function painel(dia, nomeDia) {
       const linhas = BovDados.leituras(a ? a.id : null, dia).map(l => {
-        const irregular = ehTemp ? l.temp >= BovDados.LIMITE_TEMP : l.sons >= BovDados.LIMITE_SONS;
-        const valor = ehTemp ? numero(l.temp) + '°' : sons(l.sons, a ? 0 : 1);
+        // Bloco de 30 min: mostra a média e marca o alerta se alguma leitura passou do limite
+        const irregular = ehTemp ? l.tempMax >= BovDados.LIMITE_TEMP : l.sonsMax >= BovDados.LIMITE_SONS;
+        const valor = ehTemp ? numero(l.temp) + '°' : sons(l.sons, l.sons % 1 ? 1 : 0);
         return `
           <li class="${irregular ? 'is-irregular' : ''}">
             <span class="historico__hora">${irregular ? '<span class="historico__alerta" title="Irregular"></span>' : ''}${l.hora}</span>

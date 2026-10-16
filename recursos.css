@@ -1234,6 +1234,47 @@ body.darkmode .gastos__linha--0 .gastos__barra { background: #000000; }
   }
 }
 
+/* ---------- Animal monitorado pela central ---------- */
+.monitor {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-top: 18px;
+}
+
+.monitor[hidden],
+.monitor [hidden] {
+  display: none;
+}
+
+.monitor__etiqueta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+}
+
+.monitor__etiqueta::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2E9E4F;
+  box-shadow: 0 0 0 4px rgba(46, 158, 79, 0.2);
+}
+
+.monitor .monitor__btn {
+  margin-left: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.monitor__btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
 /* ---------- Cadastrar animal ---------- */
 .rec-novo {
   margin-left: 20px;
