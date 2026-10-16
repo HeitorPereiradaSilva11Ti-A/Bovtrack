@@ -6,6 +6,8 @@ const BovDados = (() => {
   // Mesmas regras da central (CLAUDE.md)
   const LIMITE_TEMP = 39;   // animal com 39 °C ou mais
   const LIMITE_SONS = 3;    // 3 ou mais sons na janela
+  const LIMITE_FRIO = 0;    // ambiente abaixo de 0 °C: frio demais para zebuínos (temperatura crítica inferior)
+  const LIMITE_HIPOTERMIA = 36;  // animal abaixo de 36 °C: sinais de hipotermia
 
   // Desenho usado quando o animal foi cadastrado sem imagem
   const IMAGEM_DA_RACA = { 'Nelore': 'boi-nelore.png', 'Gir': 'boi-nelore.png', 'Angus': 'boi-angus.png',
@@ -22,18 +24,11 @@ const BovDados = (() => {
     return a;
   }
 
-  function lerLocal(chave, padrao) {
-    try {
-      const valor = JSON.parse(localStorage.getItem(chave));
-      return valor === null ? padrao : valor;
-    } catch (e) {
-      return padrao;
-    }
-  }
-
   return {
     LIMITE_TEMP,
     LIMITE_SONS,
+    LIMITE_FRIO,
+    LIMITE_HIPOTERMIA,
 
     // Busca no servidor o que a página precisa:
     //   { animais: true }            lista de animais
@@ -48,6 +43,9 @@ const BovDados = (() => {
         animais = [a];
         vacinasDoAnimal[a.id] = a.vacinas || [];
         vacinas = await buscarDoServidor('api/vacinas.php');
+        central = await buscarDoServidor('api/central.php');
+      }
+      if (o.central && o.animal === undefined) {
         central = await buscarDoServidor('api/central.php');
       }
       if (o.leituras !== undefined) {
@@ -93,12 +91,9 @@ const BovDados = (() => {
     async monitorar(id) {
       central = await enviarParaServidor('api/central.php', { bovino_id: id });
     },
-
-    // Sistema de resfriamento: por enquanto só no navegador (o controle pelo
-    // site depende das regras que o grupo ainda vai decidir)
-    resfriamento: () => lerLocal('bovtrack_resfriamento', { ligado: false, potencia: 100 }),
-    salvarResfriamento(estado) {
-      try { localStorage.setItem('bovtrack_resfriamento', JSON.stringify(estado)); } catch (e) {}
+    // Relé (ventilador ou lâmpada): liga pelo botão e desliga sozinho depois de alguns minutos
+    async ligarRele(ligar) {
+      central = await enviarParaServidor('api/central.php', { rele: ligar });
     },
 
     // Registro de gastos: ilustrativo (o hardware não mede consumo)
