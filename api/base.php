@@ -103,6 +103,30 @@ function ehDonoCentral(): bool {
     return $dono !== '' && $dono === strtolower((string)($_SESSION['email'] ?? ''));
 }
 
+// A central (ESP) manda a chave no cabeçalho X-Chave ou no JSON ("chave")
+function exigirChaveCentral(array $d = []): void {
+    global $config;
+    $chave = (string)($_SERVER['HTTP_X_CHAVE'] ?? ($d['chave'] ?? ''));
+    $esperada = (string)($config['chave_central'] ?? '');
+    if ($esperada === '' || $esperada === 'TROQUE_ESTA_CHAVE' || !hash_equals($esperada, $chave)) {
+        erro('Chave da central inválida.', 401);
+    }
+}
+
+// Relé ligado pelo botão do site (ventilador ou lâmpada): desliga sozinho depois deste tempo
+const MINUTOS_RELE = 10;
+
+// Estado do relé: { ligado, restante (segundos) }
+function estadoRele(): array {
+    try {
+        $ate = banco()->query('SELECT TIMESTAMPDIFF(SECOND, NOW(), rele_ate) FROM central WHERE id = 1')->fetchColumn();
+    } catch (PDOException $e) {
+        erro('Falta a coluna "rele_ate" no banco: rode o backend/rele.sql no phpMyAdmin.', 500);
+    }
+    $restante = $ate === null || $ate === false ? 0 : max(0, (int)$ate);
+    return ['ligado' => $restante > 0, 'restante' => $restante];
+}
+
 // Animal que a central está monitorando (null = nenhum)
 function animalDaCentral(): ?int {
     try {

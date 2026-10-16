@@ -4,22 +4,17 @@
 //     { "bovino_id": 0, "temp_animal": 38.6, "temp_ambiente": 31.2,
 //       "sons": 2, "ventilador": false }
 //     bovino_id 0 = grava no animal escolhido no site ("Monitorar com a central")
-//   GET ?bovino=5&dia=hoje   -> leituras do animal em blocos de 30 min (mais recente primeiro)
-//   GET ?dia=ontem           -> média de todos os animais do dono, em blocos de 30 min
+//   GET ?bovino=5&dia=hoje   -> leituras do animal em blocos de 5 min (mais recente primeiro)
+//   GET ?dia=ontem           -> média de todos os animais do dono, em blocos de 5 min
 // Leituras com mais de DIAS_GUARDADOS dias são apagadas sozinhas.
 require __DIR__ . '/base.php';
 
-const DIAS_GUARDADOS = 7;
+const DIAS_GUARDADOS = 2;   // o site só mostra hoje e ontem
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $d = corpo();
 
-    // A chave pode vir no cabeçalho X-Chave ou no próprio JSON ("chave")
-    $chave = (string)($_SERVER['HTTP_X_CHAVE'] ?? ($d['chave'] ?? ''));
-    $esperada = (string)($config['chave_central'] ?? '');
-    if ($esperada === '' || $esperada === 'TROQUE_ESTA_CHAVE' || !hash_equals($esperada, $chave)) {
-        erro('Chave da central inválida.', 401);
-    }
+    exigirChaveCentral($d);
 
     $numero = fn($v, $min, $max) => is_numeric($v) && $v >= $min && $v <= $max ? (float)$v : null;
     $bovino = (int)($d['bovino_id'] ?? 0);
@@ -51,8 +46,8 @@ $usuario = usuarioLogado();
 $dia = ($_GET['dia'] ?? '') === 'ontem' ? 'ontem' : 'hoje';
 [$inicio, $fim] = intervaloDoDia($dia);
 
-// Blocos de 30 min: média do bloco e o maior valor (para marcar o alerta)
-$colunas = "CONCAT(DATE_FORMAT(l.criado_em, '%H'), ':', IF(MINUTE(l.criado_em) < 30, '00', '30')) AS hora,
+// Blocos de 5 min: média do bloco e o maior valor (para marcar o alerta)
+$colunas = "CONCAT(DATE_FORMAT(l.criado_em, '%H'), ':', LPAD(FLOOR(MINUTE(l.criado_em) / 5) * 5, 2, '0')) AS hora,
             AVG(l.temp_animal) AS temp, AVG(l.sons) AS sons,
             MAX(l.temp_animal) AS temp_max, MAX(l.sons) AS sons_max";
 

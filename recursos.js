@@ -252,7 +252,7 @@ const PAGINAS = {
     document.title = `${titulo} - Bovtrack`;
     el('voltar').href = a ? `animal.html?id=${a.id}` : (ehTemp ? 'temperatura.html' : 'vocalizacao.html');
 
-    const subtitulo = (a ? `${a.nome} · N° ${a.numero}` : 'Média de todos os bois') + ' · média a cada 30 min';
+    const subtitulo = (a ? `${a.nome} · N° ${a.numero}` : 'Média de todos os bois') + ' · média a cada 5 min';
 
     function painel(dia, nomeDia) {
       const linhas = BovDados.leituras(a ? a.id : null, dia).map(l => {
@@ -276,48 +276,75 @@ const PAGINAS = {
     el('historico').innerHTML = painel('hoje', 'Hoje') + painel('ontem', 'Ontem');
   },
 
-  // Sistema de resfriamento: ligar/desligar, potência e gastos
+  // Regulação de temperatura: botão do relé (ventilador ou lâmpada), avisos e gastos
   resfriamento() {
-    const estado = BovDados.resfriamento();
     const botao = el('btn-ligar');
     const texto = el('txt-ligar');
-    const botoesPotencia = [...document.querySelectorAll('.potencia__btn')];
+    const status = el('rele-status');
+    let fimRele = 0;   // quando o relé desliga sozinho (Date.now())
 
-    function atualizar() {
-      botao.setAttribute('aria-pressed', estado.ligado);
-      botao.classList.toggle('is-ligado', estado.ligado);
-      texto.textContent = estado.ligado ? 'Desligar sistema de resfriamento' : 'Ligar sistema de resfriamento';
-      botoesPotencia.forEach(b => {
-        const ativo = Number(b.dataset.valor) === estado.potencia;
-        b.classList.toggle('is-ativo', ativo);
-        b.setAttribute('aria-pressed', ativo);
-      });
-      BovDados.salvarResfriamento(estado);
+    function desenharBotao() {
+      const c = BovDados.central();
+      const restante = Math.max(0, Math.round((fimRele - Date.now()) / 1000));
+      const ligado = restante > 0;
+      botao.setAttribute('aria-pressed', ligado);
+      botao.classList.toggle('is-ligado', ligado);
+      botao.disabled = !c.dono;
+      texto.textContent = !c.dono ? (ligado ? 'Sistema ligado' : 'Sistema desligado')
+        : ligado ? 'Desligar sistema' : 'Ligar sistema';
+      if (!c.dono) {
+        status.textContent = 'Só a conta dona da central pode ligar o sistema.';
+      } else if (ligado) {
+        const min = Math.floor(restante / 60);
+        const seg = String(restante % 60).padStart(2, '0');
+        status.textContent = `Ligado. Desliga sozinho em ${min}:${seg}.`;
+      } else {
+        status.textContent = 'Desligado.';
+      }
     }
 
-    botao.addEventListener('click', () => {
-      estado.ligado = !estado.ligado;
-      atualizar();
+    function lerCentral() {
+      fimRele = Date.now() + BovDados.central().rele.restante * 1000;
+      desenharBotao();
+    }
+
+    botao.addEventListener('click', async () => {
+      botao.disabled = true;
+      try {
+        await BovDados.ligarRele(fimRele <= Date.now());
+      } catch (err) {
+        alert('Não foi possível ligar ou desligar o sistema: ' + err.message);
+      }
+      lerCentral();
     });
-    botoesPotencia.forEach(b => b.addEventListener('click', () => {
-      estado.potencia = Number(b.dataset.valor);
-      atualizar();
-    }));
-    atualizar();
+    setInterval(desenharBotao, 1000);   // contagem regressiva
 
-    // Sugestão: algum animal com 39 °C ou mais e o sistema desligado
+    // Avisos do animal monitorado pela central: calor (animal com 39 °C ou mais),
+    // hipotermia (animal abaixo de 36 °C) e frio (ambiente abaixo do limite dos zebuínos)
     function sugerir() {
-      const quentes = BovDados.animais().filter(a => a.estado.temperatura === 'Irregular');
       const aviso = el('sugestao');
-      aviso.hidden = !quentes.length || estado.ligado;
-      if (aviso.hidden) return;
-      const nomes = quentes.map(a => `${escapar(a.nome)} (${numero(a.resumo.tempAgora)}°)`).join(', ');
-      aviso.innerHTML = `${ICONES.temperatura}<span><strong>Temperatura irregular:</strong> ${nomes}. ` +
-        `Sugerimos ligar o sistema de resfriamento.</span>`;
+      const a = BovDados.animal(BovDados.central().bovino_id);
+      const r = a && a.resumo;
+      const mensagens = [];
+      if (r && r.tempAgora >= BovDados.LIMITE_TEMP) {
+        mensagens.push(`<strong>Calor:</strong> o animal monitorado (${escapar(a.nome)}) está com ${numero(r.tempAgora)} °C. ` +
+          'Ligue o ventilador.');
+      }
+      if (r && r.tempAgora < BovDados.LIMITE_HIPOTERMIA) {
+        mensagens.push(`<strong>Hipotermia:</strong> o animal monitorado (${escapar(a.nome)}) está com ${numero(r.tempAgora)} °C, ` +
+          `abaixo de ${BovDados.LIMITE_HIPOTERMIA} °C. Ligue a lâmpada.`);
+      }
+      if (r && r.ambAgora < BovDados.LIMITE_FRIO) {
+        mensagens.push(`<strong>Frio:</strong> o ambiente do animal monitorado (${escapar(a.nome)}) está com ${numero(r.ambAgora)} °C, ` +
+          `abaixo de ${BovDados.LIMITE_FRIO} °C. Ligue a lâmpada.`);
+      }
+      aviso.hidden = !mensagens.length;
+      aviso.innerHTML = mensagens.length ? `${ICONES.temperatura}<span>${mensagens.join('<br>')}</span>` : '';
     }
-    botao.addEventListener('click', sugerir);
+
+    lerCentral();
     sugerir();
-    PAGINAS.resfriamento.atualizar = sugerir;
+    PAGINAS.resfriamento.atualizar = () => { lerCentral(); sugerir(); };
 
     const gastos = BovDados.gastos();
     const maiorReais = Math.max(...gastos.map(g => g.reais));
@@ -337,7 +364,7 @@ const CARREGAR = {
   registros: () => ({ animais: true }),
   dados: () => ({ animais: true }),
   animal: () => ({ animal: parametro('id') }),
-  resfriamento: () => ({ animais: true }),
+  resfriamento: () => ({ animais: true, central: true }),
   historico: () => (parametro('id') ? { animal: parametro('id'), leituras: parametro('id') } : { leituras: null })
 };
 

@@ -16,6 +16,7 @@ function formatarAnimal(array $b): array {
     $temLeitura = $b['temp_agora'] !== null;
     $resumo = $temLeitura ? [
         'tempAgora' => (float)$b['temp_agora'],
+        'ambAgora' => (float)$b['amb_agora'],
         'tempMedia' => $b['temp_media'] !== null ? round((float)$b['temp_media'], 1) : (float)$b['temp_agora'],
         'sonsAgora' => (int)$b['sons_agora'],
         'sonsMedia' => $b['sons_media'] !== null ? round((float)$b['sons_media'], 1) : (float)$b['sons_agora'],
@@ -46,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // "Agora" = última leitura do animal; "Média" = média de hoje
     $consulta =
         'SELECT b.*, r.nome AS raca,
-                u.temp_animal AS temp_agora, u.sons AS sons_agora, u.ventilador,
+                u.temp_animal AS temp_agora, u.temp_ambiente AS amb_agora, u.sons AS sons_agora, u.ventilador,
                 (SELECT AVG(l.temp_animal) FROM leituras l WHERE l.bovino_id = b.id AND l.criado_em >= ? AND l.criado_em < ?) AS temp_media,
                 (SELECT AVG(l.sons)        FROM leituras l WHERE l.bovino_id = b.id AND l.criado_em >= ? AND l.criado_em < ?) AS sons_media
            FROM bovinos b

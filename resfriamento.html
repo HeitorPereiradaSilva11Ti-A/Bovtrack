@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de resfriamento - Bovtrack</title>
+  <title>Regulação de temperatura - Bovtrack</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lexend+Giga:wght@100..900&family=Saira+Semi+Condensed:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=2">
-  <link rel="stylesheet" href="recursos.css?v=2">
+  <link rel="stylesheet" href="recursos.css?v=3">
   <!-- Script Unificado de Tema e Navegação -->
   <script src="changemode.js?v=2" defer></script>
   <script src="api-cliente.js?v=2" defer></script>
-  <script src="recursos-dados.js?v=2" defer></script>
-  <script src="recursos.js?v=2" defer></script>
+  <script src="recursos-dados.js?v=3" defer></script>
+  <script src="recursos.js?v=3" defer></script>
 </head>
 <body data-pagina="resfriamento">
 <header>
@@ -56,7 +56,7 @@
 <main class="rec">
   <div class="rec-topo">
     <a class="rec-voltar" href="recursos.html" aria-label="Voltar"><span data-icone="voltar"></span></a>
-    <h1 class="rec-titulo">Sistema de resfriamento</h1>
+    <h1 class="rec-titulo">Regulação de temperatura</h1>
   </div>
 
   <p class="sugestao" id="sugestao" role="status" hidden></p>
@@ -64,18 +64,12 @@
   <div class="resfriamento">
     <div>
       <button type="button" class="rec-fan rec-fan--botao" id="btn-ligar" aria-pressed="false">
-        <span class="rec-fan__texto" id="txt-ligar">Ligar sistema de resfriamento</span>
+        <span class="rec-fan__texto" id="txt-ligar">Ligar sistema</span>
         <span class="rec-fan__vento" data-icone="vento"></span>
         <span class="rec-fan__icone" data-icone="ventilador"></span>
       </button>
-
-      <h2 class="rec-subtitulo">Potência:</h2>
-      <div class="potencia" role="group" aria-label="Potência">
-        <button type="button" class="potencia__btn" data-valor="25">25%</button>
-        <button type="button" class="potencia__btn" data-valor="50">50%</button>
-        <button type="button" class="potencia__btn" data-valor="75">75%</button>
-        <button type="button" class="potencia__btn" data-valor="100">100%</button>
-      </div>
+      <p class="rele__status" id="rele-status" role="status"></p>
+      <p class="rele__dica">O botão liga o que estiver conectado no relé: um ventilador no calor ou uma lâmpada no frio.</p>
     </div>
 
     <div>

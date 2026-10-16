@@ -476,7 +476,7 @@ main.rec :focus-visible {
   text-align: center;
 }
 
-/* Card "Sistema de resfriamento" */
+/* Card "Regulação de temperatura" */
 .rec-fan {
   position: relative;
   overflow: hidden;
@@ -977,6 +977,11 @@ body.darkmode .rec-busca input::placeholder {
   box-shadow: 0 0 0 3px #8A3AA0;
 }
 
+.rec-fan--botao:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .rec-fan--botao.is-ligado .rec-fan__icone svg {
   animation: girar 1.4s linear infinite;
 }
@@ -991,27 +996,15 @@ body.darkmode .rec-busca input::placeholder {
   }
 }
 
-.potencia {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 6%;
+.rele__status {
+  margin: 16px 0 0;
+  font-size: 1.1rem;
 }
 
-.potencia__btn {
-  aspect-ratio: 1;
-  max-width: 120px;
-  border: 1px solid var(--rec-borda);
-  border-radius: 6px;
-  background: var(--rec-potencia);
-  color: #FFFFFF;
-  font-family: var(--rec-fonte);
-  font-size: clamp(1.1rem, 1.8vw, 1.6rem);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.potencia__btn.is-ativo {
-  background: var(--rec-lilas);
+.rele__dica {
+  margin: 8px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
 }
 
 .gastos__aviso {
@@ -1071,7 +1064,8 @@ body.darkmode .rec-busca input::placeholder {
 }
 
 .gastos__barra {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 12px;
   height: 24px;
 }
 
@@ -1209,7 +1203,7 @@ body.darkmode .gastos__linha--0 .gastos__barra { background: #000000; }
 
   .historico,
   .resfriamento {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .historico__painel {
@@ -1225,9 +1219,6 @@ body.darkmode .gastos__linha--0 .gastos__barra { background: #000000; }
     font-size: 1rem;
   }
 
-  .potencia {
-    gap: 4%;
-  }
 
   .gastos__texto {
     font-size: 1rem;
