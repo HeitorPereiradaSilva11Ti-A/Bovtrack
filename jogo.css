@@ -411,6 +411,13 @@ body.darkmode .jogo-placa {
   text-align: center;
 }
 
+.jogo-placa p.jogo-aviso-ia {
+  margin-top: 1.4em;
+  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+  font-style: italic;
+  opacity: 0.85;
+}
+
 /* Pregos nos quatro cantos */
 .jogo-prego {
   position: absolute;
