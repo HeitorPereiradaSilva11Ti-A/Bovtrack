@@ -565,3 +565,50 @@ body.darkmode .jogo-placa {
     width: 64px;
   }
 }
+
+/* ---------- Vídeo do jogo (Short em pé) ao lado do logo ---------- */
+.jogo-card--com-video {
+  padding-left: 38%;
+}
+
+.jogo-video-short {
+  position: absolute;
+  left: 5%;
+  top: 6%;
+  height: 88%;
+  aspect-ratio: 9 / 16;
+  border: 0;
+  border-radius: 12px;
+  background: #111111;
+}
+
+.jogo-card--com-video .jogo-logo {
+  width: 45%;
+}
+
+.jogo-card--com-video .jogo-btn {
+  width: 70%;
+}
+
+/* No celular: vídeo em cima, logo e botão embaixo */
+@media (max-width: 768px) {
+  .jogo-card--com-video {
+    aspect-ratio: auto;
+    padding: 18px 0 22px;
+    gap: 16px;
+  }
+
+  .jogo-video-short {
+    position: static;
+    width: 62%;
+    height: auto;
+  }
+
+  .jogo-card--com-video .jogo-logo {
+    width: 42%;
+  }
+
+  .jogo-card--com-video .jogo-btn {
+    width: 74%;
+  }
+}

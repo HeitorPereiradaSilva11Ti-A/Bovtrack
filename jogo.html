@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&family=Lexend+Giga:wght@100..900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css?v=2">
-  <link rel="stylesheet" href="jogo.css?v=3">
+  <link rel="stylesheet" href="jogo.css?v=4">
 
   <!-- Script Unificado de Tema e Navegação -->
   <script src="changemode.js?v=2" defer></script>
@@ -64,11 +64,13 @@
 
     <!-- Card do jogo -->
     <section class="jogo-moldura">
-      <div class="jogo-card">
-        <!--
-          Para colocar o vídeo do jogo no lugar do fundo preto, descomente:
-          <video class="jogo-video" src="assetsbovtrack/jogo/video.mp4" autoplay muted loop playsinline></video>
-        -->
+      <div class="jogo-card jogo-card--com-video">
+        <!-- Vídeo do jogo (YouTube Shorts), em pé, ao lado do logo -->
+        <iframe class="jogo-video-short"
+          src="https://www.youtube.com/embed/3ME2e6sxK1E?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=3ME2e6sxK1E&amp;rel=0&amp;playsinline=1"
+          title="Vídeo do jogo A Morte do Vaqueiro"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen loading="lazy"></iframe>
         <img class="jogo-logo" src="assetsbovtrack/jogo/logo-vaqueiro.png" alt="A Morte do Vaqueiro">
         <!-- Troque o href pelo link do jogo -->
         <a class="jogo-btn" href="https://gd.games/games/2abe53a7-08e4-4016-adc2-af9b63801be5" target="_blank" rel="noopener">Jogue agora</a>
